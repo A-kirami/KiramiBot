@@ -12,7 +12,7 @@
 
 ## 新贡献者指南
 
-要了解项目概况，请阅读 [README](../README.md)。以下是一些帮助您开始开源贡献的资源：
+要了解项目概况，请阅读 [README](../README.md)。以下是一些帮助您开始第一次开源贡献的资源：
 
 - [如何为开源做贡献](https://opensource.guide/zh-hans/how-to-contribute/)
 - [寻找在 GitHub 上贡献开源的方法](https://docs.github.com/zh/get-started/exploring-projects-on-github/finding-ways-to-contribute-to-open-source-on-github)
@@ -36,7 +36,7 @@
 
 #### 帮助解决
 
-浏览我们现有的议题，找到您感兴趣的议题。您可以使用标签作为过滤器缩小搜索范围。有关更多信息，请参见[标签]()。
+浏览我们现有的议题，找到您感兴趣的议题。您可以使用标签作为过滤器缩小搜索范围。有关更多信息，请参见[标签](https://github.com/A-kirami/KiramiBot/labels)。
 
 如果您发现了需要解决的议题，请在议题下添加评论，以便我们知道您正在解决该议题。
 
@@ -48,7 +48,7 @@
 
 #### 在代码空间中进行更改
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=master&repo=)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/new?hide_repo_select=true&ref=main&repo=637530315)
 
 有关代码空间的更多信息，请参阅 [GitHub Codespaces 概述](https://docs.github.com/zh/codespaces/overview)。
 

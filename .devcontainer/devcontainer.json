@@ -1,0 +1,47 @@
+{
+    "name": "KiramiBot",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "kiramibot",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "features": {
+        "ghcr.io/devcontainers-contrib/features/pdm:2": {}
+    },
+    "forwardPorts": [
+        8120,
+        27017
+    ],
+    "postCreateCommand": "pdm install",
+    "customizations": {
+        "codespaces": {
+            "openFiles": [
+                "README.md"
+            ]
+        },
+        "vscode": {
+            "settings": {
+                "python.analysis.diagnosticMode": "workspace",
+                "python.analysis.typeCheckingMode": "basic",
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.codeActionsOnSave": {
+                        "source.fixAll": true,
+                        "source.organizeImports": true
+                    }
+                },
+                "files.exclude": {
+                    "**/__pycache__": true
+                },
+                "files.watcherExclude": {
+                    "**/__pycache__": true
+                }
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.black-formatter",
+                "charliermarsh.ruff",
+                "tamasfe.even-better-toml"
+            ]
+        }
+    }
+}

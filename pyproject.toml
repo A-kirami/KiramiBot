@@ -1,0 +1,124 @@
+[project]
+name = "KiramiBot"
+version = "0.0.0"
+description = "🌟 读作 Kirami，写作星见，简明轻快的聊天机器人应用。"
+authors = [{ name = "Akirami", email = "akiramiaya@outlook.com" }]
+requires-python = ">=3.10,<4.0"
+license = { text = "AGPL-3.0" }
+readme = "README.md"
+keywords = ["kirami", "bot", "chatbot", "onebot"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Robot Framework",
+    "Framework :: Robot Framework :: Library",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+]
+dependencies = [
+    "nonebot2[fastapi]>=2.0.1",
+    "nonebot-adapter-onebot>=2.2.4",
+    "typing-extensions>=4.7.1",
+    "APScheduler>=3.10.1",
+    "mango-odm>=0.3.2",
+    "arrow>=1.2.3",
+    "bidict>=0.22.1",
+    "cashews>=6.2.0",
+    "flowery>=0.0.1",
+    "rich>=13.5.2",
+    "loguru>=0.7.0",
+    "tomli>=2.0.1; python_version < \"3.11\"",
+    "pyyaml>=6.0.1",
+    "playwright>=1.36.0",
+    "httpx[http2]>=0.24.1",
+    "Jinja2>=3.1.2",
+    "tenacity>=8.2.2",
+    "yagmail>=0.15.293",
+    "filetype>=1.2.0",
+    "markdown-it-py[linkify,plugins]>=3.0.0",
+    "mdit-py-emoji>=0.1.1",
+    "pygments>=2.16.1",
+]
+
+[project.urls]
+homepage = "https://kiramibot.dev"
+repository = "https://github.com/A-kirami/KiramiBot"
+documentation = "https://kiramibot.dev/docs"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black>=23.7.0",
+    "ruff>=0.0.282",
+    "pre-commit>=3.3.3",
+]
+
+[tool.ruff]
+select = [
+    "F",    # Pyflakes
+    "E",    # pycodestyle
+    "W",    # pycodestyle
+    "UP",   # pyupgrade
+    "ANN",  # flake8-annotations
+    "S",    # flake8-bandit
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "ISC",  # flake8-implicit-str-concat
+    "INP",  # flake8-no-pep420
+    "PIE",  # flake8-pie
+    "T20",  # flake8-print
+    "PYI",  # flake8-pyi
+    "PT",   # flake8-pytest-style
+    "Q",    # flake8-quotes
+    "RSE",  # flake8-raise
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "TID",  # flake8-tidy-imports
+    "TCH",  # flake8-type-checking
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "ERA",  # eradicate
+    "PL",   # Pylint
+    "TRY",  # tryceratops
+    "PERF", # Perflint
+    "RUF",  # Ruff-specific rules
+]
+ignore = [
+    "E402",
+    "E501",
+    "B008",
+    "B009",
+    "B010",
+    "ANN002",
+    "ANN003",
+    "ANN101",
+    "ANN102",
+    "ANN401",
+    "ERA001",
+    "PLC0414",
+    "PLR0913",
+    "PLW2901",
+    "TRY003",
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "RUF012",
+]
+unfixable = ["F401", "F841", "ERA001"]
+
+[tool.ruff.flake8-annotations]
+suppress-dummy-args = true
+
+[tool.pdm.scripts]
+lint = "black --check --diff --color ."
+fix = "black ."
+post_install = "pre-commit install"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

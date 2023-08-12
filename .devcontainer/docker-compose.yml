@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  kiramibot:
+    image: mcr.microsoft.com/devcontainers/python:1-3.10-bullseye
+    volumes:
+      - ../..:/workspaces:cached
+    network_mode: service:kirami-db
+    command: sleep infinity
+
+  kirami-db:
+    image: mongo:latest
+    restart: unless-stopped
+    volumes:
+      - kirami-data:/data/db
+
+volumes:
+  kirami-data:

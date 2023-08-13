@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         ## 注意事项
-        [GitHub Issues](https://github.com/A-kirami/KiramiBot/issues) 专门用于错误报告和功能需求，这意味着我们不接受使用问题。如果您打开的问题不符合要求，它将会被无条件关闭。
+        [GitHub Issues](https://github.com/A-kirami/KiramiBot/issues) 专门用于错误报告和功能需求，这意味着我们不接受使用问题。如果你打开的问题不符合要求，它将会被无条件关闭。
 
         有关使用问题，请通过以下途径：
         - 阅读文档以解决
@@ -21,7 +21,7 @@ body:
     id: terms
     attributes:
       label: 确认事项
-      description: 请确认您已遵守所有必选项。
+      description: 请确认你已遵守所有必选项。
       options:
         - label: 我已仔细阅读并了解上述注意事项。
           required: true
@@ -33,38 +33,38 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: 您希望能解决什么样的问题？
-      description: 请简要地说明是什么问题导致您想要一个新功能。也许我们可以提出一种现有的解决办法。
+      label: 你希望能解决什么样的问题？
+      description: 请简要地说明是什么问题导致你想要一个新功能。也许我们可以提出一种现有的解决办法。
     validations:
       required: true
 
   - type: textarea
     id: solution
     attributes:
-      label: 您想要的解决方案
-      description: 请说明您希望使用什么样的方法解决上述问题。
+      label: 你想要的解决方案
+      description: 请说明你希望使用什么样的方法解决上述问题。
     validations:
       required: true
 
   - type: textarea
     id: alternatives
     attributes:
-      label: 您考虑过的替代方案
-      description: 除了上述方法以外，您还考虑过哪些其他的实现方式？
+      label: 你考虑过的替代方案
+      description: 除了上述方法以外，你还考虑过哪些其他的实现方式？
 
   - type: textarea
     id: usecase
     attributes:
       label: 实现的功能是什么样的？
       description: |
-        提供功能在实现后如何使用的代码示例。请注意，您可以使用 Markdown 来设置代码块的格式。
-        尽可能多地提供细节。您希望它如何使用的示例代码会有所帮助。
+        提供功能在实现后如何使用的代码示例。请注意，你可以使用 Markdown 来设置代码块的格式。
+        尽可能多地提供细节。你希望它如何使用的示例代码会有所帮助。
 
   - type: textarea
     id: context
     attributes:
       label: 还有什么要补充的吗？
-      description: 在此处添加相关的任何其他上下文或截图，或者您觉得有帮助的信息。
+      description: 在此处添加相关的任何其他上下文或截图，或者你觉得有帮助的信息。
 
   - type: checkboxes
     id: contribute

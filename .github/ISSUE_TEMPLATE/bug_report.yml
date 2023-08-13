@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         ## 注意事项
-        [GitHub Issues](https://github.com/A-kirami/KiramiBot/issues) 专门用于错误报告和功能需求，这意味着我们不接受使用问题。如果您打开的问题不符合要求，它将会被无条件关闭。
+        [GitHub Issues](https://github.com/A-kirami/KiramiBot/issues) 专门用于错误报告和功能需求，这意味着我们不接受使用问题。如果你打开的问题不符合要求，它将会被无条件关闭。
 
         有关使用问题，请通过以下途径：
         - 阅读文档以解决
@@ -15,7 +15,7 @@ body:
         - 在 [GitHub Discussions](https://github.com/A-kirami/KiramiBot/discussions) 上提问
         - 在网络中搜索是否有人遇到过类似的问题
 
-        如果您不知道如何有效、精准地提出一个问题，我们建议您先阅读[《提问的智慧》](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)。
+        如果你不知道如何有效、精准地提出一个问题，我们建议你先阅读[《提问的智慧》](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)。
 
         最后，请记得遵守我们的社区准则，友好交流。
 
@@ -23,7 +23,7 @@ body:
     id: terms
     attributes:
       label: 确认事项
-      description: 请确认您已遵守所有必选项。
+      description: 请确认你已遵守所有必选项。
       options:
         - label: 我已仔细阅读并了解上述注意事项。
           required: true
@@ -45,7 +45,7 @@ body:
     id: describe
     attributes:
       label: 问题描述
-      description: 请清晰简洁地说明问题是什么，并解释您是如何遇到此问题的，以及您为此做出的尝试。
+      description: 请清晰简洁地说明问题是什么，并解释你是如何遇到此问题的，以及你为此做出的尝试。
       placeholder: 我遇到的问题是……
     validations:
       required: true
@@ -68,7 +68,7 @@ body:
     id: expected
     attributes:
       label: 预期行为
-      description: 您的预期中会发生什么？
+      description: 你的预期中会发生什么？
       placeholder: 正常情况下它应该……
 
   - type: textarea
@@ -76,13 +76,13 @@ body:
     attributes:
       label: 日志信息
       description: 提供有助于诊断问题的任何日志和完整的错误信息。
-      placeholder: 请注意将您的敏感信息从日志中过滤或替换。
+      placeholder: 请注意将你的敏感信息从日志中过滤或替换。
 
   - type: textarea
     id: context
     attributes:
       label: 额外补充
-      description: 在此处添加相关的任何其他上下文或截图，或者您觉得有帮助的信息。
+      description: 在此处添加相关的任何其他上下文或截图，或者你觉得有帮助的信息。
 
   - type: checkboxes
     id: contribute

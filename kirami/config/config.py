@@ -181,6 +181,9 @@ class BotConfig(BaseConfig):
     browser: Literal["chromium", "firefox", "webkit"] = "chromium"
     """浏览器类型"""
 
+    time_zone: str = "Asia/Shanghai"
+    """时区"""
+
     _env_file: str | None = Field(default=None, alias="env_file")
     """配置文件名默认从 `.env.{env_name}` 中读取配置"""
 

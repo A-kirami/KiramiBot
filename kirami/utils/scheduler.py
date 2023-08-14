@@ -10,7 +10,9 @@ from kirami.config import bot_config
 from kirami.hook import on_shutdown, on_startup
 
 scheduler = AsyncIOScheduler()
-scheduler.configure(bot_config.apscheduler_config)
+apscheduler_config = getattr(bot_config, "apscheduler_config", {})
+apscheduler_config.setdefault("apscheduler.timezone", bot_config.time_zone)
+scheduler.configure(apscheduler_config)
 
 
 @on_startup

@@ -237,7 +237,7 @@ class KiramiBot:
 
 def _mixin_config(config: dict[str, Any]) -> dict[str, Any]:
     config["fastapi_openapi_url"] = (
-        config["fastapi_openapi_url"] if config["debug"] else None
+        config.get("fastapi_openapi_url") if config["debug"] else None
     )
     config["fastapi_extra"] = {
         "title": __metadata__.name,

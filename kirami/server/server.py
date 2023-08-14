@@ -35,9 +35,10 @@ class Server:
 
             cls._routers.clear()
 
-        logger.debug(
-            f"API Docs Url is http://{bot_config.host}:{bot_config.port}{bot_config.fastapi_docs_url}"
-        )
+        if getattr(bot_config, "fastapi_docs_url", None):
+            logger.debug(
+                f"API Docs Url is http://{bot_config.host}:{bot_config.port}{bot_config.fastapi_docs_url}"
+            )
 
     @classmethod
     def get_app(cls) -> FastAPI:

@@ -47,7 +47,7 @@ class LimitConfig(BaseModel):
 
 class CooldownConfig(LimitConfig):
     time: int
-    """默认为0，即不冷却"""
+    """冷却时间，单位为秒"""
 
 
 class ResetTime(BaseModel):
@@ -58,7 +58,7 @@ class ResetTime(BaseModel):
 
 class QuotaConfig(LimitConfig):
     limit: int
-    """默认为0，即不限制"""
+    """配置数量"""
     reset: ResetTime = Field(default_factory=ResetTime)
     """重置时间"""
 
@@ -81,8 +81,8 @@ class MixinConfig(Document):
     角色权限。
 
     可选范围:
-    - `use`: 使用所需最低权限，默认为成员权限
-    - `manage`: 管理所需最低权限，默认为管理员权限
+    - `user`: 使用所需最低权限角色，默认为成员权限
+    - `manager`: 管理所需最低权限角色，默认为管理员权限
     """
 
     scope: Literal["group", "private", "all"] = "all"

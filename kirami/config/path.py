@@ -1,11 +1,10 @@
 """本模块定义了 KiramiBot 运行所需的文件目录"""
 
-import sys
 from pathlib import Path
 
 # ========== 根目录 ==========
 
-BOT_DIR = Path(sys.path[0])
+BOT_DIR = Path.cwd()
 """Bot 根目录"""
 
 # ========== 文件目录 ==========
@@ -39,5 +38,5 @@ PAGE_DIR = RES_DIR / "page"
 # ========== 创建目录 ==========
 
 for var in locals().copy().values():
-    if isinstance(var, Path):
+    if isinstance(var, Path) and var.stem.endswith("_DIR"):
         var.mkdir(parents=True, exist_ok=True)

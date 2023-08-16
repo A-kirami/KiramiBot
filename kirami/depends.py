@@ -34,7 +34,7 @@ from playwright.async_api import (
 
 from kirami.database import Group, User
 from kirami.matcher import Matcher
-from kirami.service.limiter import Cooldown, LimitScope, Lock, Quota, get_scope_key
+from kirami.service.limiter import Cooldown, LimitScope, Quota, get_scope_key
 from kirami.service.service import Ability
 from kirami.service.subject import Subjects as Subjects
 from kirami.typing import (
@@ -430,7 +430,7 @@ def useQuota(
     *,
     prompt: str | None = None,
     scope: LimitScope = LimitScope.LOCAL,
-    reset_time: time | None = None,
+    reset_time: int | str | time | None = None,
     **kwargs: Any,
 ) -> Quota:
     """使用配额次数限制"""

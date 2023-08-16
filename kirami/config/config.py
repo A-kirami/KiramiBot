@@ -207,7 +207,7 @@ class BotConfig(BaseConfig):
     @root_validator(pre=True)
     def mixin_config(cls, values: dict[str, Any]) -> dict[str, Any]:
         config = Config(**values, _env_file=(".env", f".env.{Env().environment}"))
-        return config.dict()
+        return config.dict(exclude_unset=True)
 
     class Config:
         extra = "allow"

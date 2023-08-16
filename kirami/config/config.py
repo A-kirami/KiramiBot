@@ -1,13 +1,18 @@
 """本模块定义了 KiramiBot 运行所需的配置项"""
 
+
 from collections.abc import KeysView, Mapping
 from datetime import timedelta
 from ipaddress import IPv4Address
-from typing import TYPE_CHECKING, Any, Literal, NoReturn, TypeAlias
+from types import MappingProxyType
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, NoReturn, TypeAlias
 
 from mango.drive import DEFAULT_CONNECT_URI
 from nonebot.config import Config, Env
 from pydantic import BaseModel, Field, IPvAnyAddress, root_validator
+from typing_extensions import Self
+
+from .utils import find_plugin
 
 LevelName: TypeAlias = Literal[
     "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"
@@ -15,6 +20,8 @@ LevelName: TypeAlias = Literal[
 
 
 class BaseConfig(BaseModel, Mapping):
+    __raw_config__: ClassVar[MappingProxyType[str, Any]] = MappingProxyType({})
+
     def __getitem__(self, key: str) -> Any:
         try:
             return getattr(self, key)
@@ -43,6 +50,16 @@ class BaseConfig(BaseModel, Mapping):
 
     def keys(self) -> KeysView[str]:
         return self.__dict__.keys()
+
+    @classmethod
+    def load(cls, namespace: str | None = None) -> Self:
+        if namespace is None and (plugin := find_plugin(cls)):
+            namespace = plugin.name
+
+        if not namespace:
+            raise RuntimeError("无法确定配置所属插件，请指定 namespace")
+
+        return cls(**cls.__raw_config__.get(namespace, {}))
 
 
 class LogConfig(BaseConfig):
@@ -223,6 +240,12 @@ class KiramiConfig(BaseConfig):
 
     @root_validator(pre=True)
     def set_default_config(cls, values: dict[str, Any]) -> dict[str, Any]:
+        BaseConfig.__raw_config__ = MappingProxyType(values)
         for name, config in cls.__annotations__.items():
             values.setdefault(name, config())
         return values
+
+    @property
+    def config(self) -> MappingProxyType[str, Any]:
+        """原始配置"""
+        return BaseConfig.__raw_config__

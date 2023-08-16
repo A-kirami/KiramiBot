@@ -1,6 +1,10 @@
+import importlib
 import itertools
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
+
+from nonebot.plugin import Plugin
 
 try:  # pragma: py-gte-311
     import tomllib  # pyright: ignore[reportMissingImports]
@@ -29,3 +33,22 @@ def load_config() -> dict[str, Any]:
             return load_file(file)
     pyproject = load_file("pyproject.toml")
     return pyproject.get("tool", {}).get("kirami", {})
+
+
+def find_plugin(cls: Callable[..., Any], /) -> Plugin | None:
+    """查找类所在的插件对象
+
+    ### 参数
+        cls: 查找的类
+    """
+    module_name = cls.__module__
+    module = importlib.import_module(module_name)
+    parts = module_name.split(".")
+
+    for i in range(len(parts), 0, -1):
+        current_module = ".".join(parts[:i])
+        module = importlib.import_module(current_module)
+        if plugin := getattr(module, "__plugin__", None):
+            return plugin
+
+    return None

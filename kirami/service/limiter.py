@@ -21,8 +21,6 @@ from kirami.hook import on_startup
 from kirami.matcher import Matcher
 from kirami.utils import get_daily_datetime, human_readable_time
 
-# ruff: noqa: PLR2004
-
 
 class LimitScope(str, Enum):
     """限制隔离范围"""
@@ -209,13 +207,10 @@ class Quota(PersistLimiter):
 
         if isinstance(value, str):
             parts = value.split(":")
-            if len(parts) not in (2, 3):
+            if len(parts) > 4:  # noqa: PLR2004
                 raise ValueError("Invalid time format")
 
-            hours, minutes, *seconds = map(int, parts)
-            seconds = seconds[0] if seconds else 0
-
-            return Time(hour=hours, minute=minutes, second=seconds)
+            return Time(*map(int, parts))  # type: ignore
 
         return value
 

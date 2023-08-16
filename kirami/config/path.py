@@ -37,6 +37,6 @@ PAGE_DIR = RES_DIR / "page"
 
 # ========== 创建目录 ==========
 
-for var in locals().copy().values():
-    if isinstance(var, Path) and var.stem.endswith("_DIR"):
+for name, var in locals().copy().items():
+    if name.endswith("_DIR") and isinstance(var, Path):
         var.mkdir(parents=True, exist_ok=True)

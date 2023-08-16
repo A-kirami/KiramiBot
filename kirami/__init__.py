@@ -24,6 +24,8 @@
 - `Matchergroup`
 """
 
+from kirami import patch  # isort:skip  # noqa: F401
+
 from typing import Any, ClassVar
 
 import nonebot
@@ -128,8 +130,6 @@ class KiramiBot:
     asgi: ClassVar[FastAPI]
 
     def __init__(self) -> None:
-        from kirami import patch as patch
-
         self.show_logo()
 
         if bot_config.debug:

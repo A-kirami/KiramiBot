@@ -2,16 +2,20 @@
 
 from nonebot.adapters.onebot.v11.exception import ActionFailed as ActionFailed
 from nonebot.adapters.onebot.v11.exception import ApiNotAvailable as ApiNotAvailable
+from nonebot.exception import AdapterException as AdapterException
 from nonebot.exception import FinishedException as FinishedException
 from nonebot.exception import IgnoredException as IgnoredException
+from nonebot.exception import MatcherException as MatcherException
 from nonebot.exception import MockApiException as MockApiException
 from nonebot.exception import NoLogException as NoLogException
 from nonebot.exception import NoneBotException
 from nonebot.exception import ParserExit as ParserExit
 from nonebot.exception import PausedException as PausedException
+from nonebot.exception import ProcessException as ProcessException
 from nonebot.exception import RejectedException as RejectedException
 from nonebot.exception import SkippedException as SkippedException
 from nonebot.exception import StopPropagation as StopPropagation
+from nonebot.exception import TypeMisMatch as TypeMisMatch
 
 
 class KiramiBotError(NoneBotException):

@@ -1,0 +1,19 @@
+name: Ruff Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request_target:
+    paths:
+      - "kirami/**"
+
+jobs:
+  ruff:
+    name: Ruff Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Ruff
+        uses: chartboost/ruff-action@v1

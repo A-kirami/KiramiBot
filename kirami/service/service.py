@@ -50,16 +50,10 @@ class CooldownConfig(LimitConfig):
     """冷却时间，单位为秒"""
 
 
-class ResetTime(BaseModel):
-    hour: int = 0
-    minute: int = 0
-    second: int = 0
-
-
 class QuotaConfig(LimitConfig):
     limit: int
     """配置数量"""
-    reset: ResetTime = Field(default_factory=ResetTime)
+    reset: int | str = 0
     """重置时间"""
 
 

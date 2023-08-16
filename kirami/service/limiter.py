@@ -5,14 +5,14 @@ import math
 import time
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from datetime import datetime, tzinfo
+from datetime import datetime
 from datetime import time as Time
 from enum import Enum
-from typing import ClassVar, TypedDict
+from typing import ClassVar, TypedDict, cast
 
 from mango import Document, Field
 from nonebot.adapters import MessageTemplate as MessageTemplate
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from pydantic import Field as PField
 from typing_extensions import Self
 
@@ -20,6 +20,8 @@ from kirami.event import Event
 from kirami.hook import on_startup
 from kirami.matcher import Matcher
 from kirami.utils import get_daily_datetime, human_readable_time
+
+# ruff: noqa: PLR2004
 
 
 class LimitScope(str, Enum):
@@ -195,31 +197,27 @@ class Quota(PersistLimiter):
         default_factory=lambda: defaultdict(int), init=False
     )
     """累计消耗配额"""
-    reset_time: Time = Field(default_factory=Time, exclude=True)
+    reset_time: int | str | Time = Field(default_factory=Time, exclude=True)
     """重置时间"""
     reset_at: datetime | None = Field(default=None, expire=0, init=False)
     """下次重置时间"""
 
-    @classmethod
-    def time(
-        cls,
-        hour: int = 0,
-        minute: int = 0,
-        second: int = 0,
-        tzinfo: tzinfo | None = None,
-    ) -> Time:
-        """创建重置时间。
+    @validator("reset_time", pre=True)
+    def parse_time(cls, value: int | str | Time) -> Time:
+        if isinstance(value, int):
+            return Time(hour=value)
 
-        ### 参数
-            hour: 时
+        if isinstance(value, str):
+            parts = value.split(":")
+            if len(parts) not in (2, 3):
+                raise ValueError("Invalid time format")
 
-            minute: 分
+            hours, minutes, *seconds = map(int, parts)
+            seconds = seconds[0] if seconds else 0
 
-            second: 秒
+            return Time(hour=hours, minute=minutes, second=seconds)
 
-            tzinfo: 时区
-        """
-        return Time(hour, minute, second, tzinfo=tzinfo)
+        return value
 
     async def consume(self, key: str, amount: int = 1) -> None:
         """消耗配额。
@@ -231,7 +229,7 @@ class Quota(PersistLimiter):
         """
         self.accum[key] += amount
         if self.reset_at is None:
-            self.reset_at = get_daily_datetime(self.reset_time)
+            self.reset_at = get_daily_datetime(cast(Time, self.reset_time))
         await self.save()
 
     def check(self, key: str) -> bool:

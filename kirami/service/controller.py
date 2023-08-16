@@ -202,7 +202,7 @@ async def quota_checker(
             scope=qt_cfg.type,
             prompt=qt_cfg.prompt,
             limit=qt_cfg.limit,
-            reset_time=Quota.time(**qt_cfg.reset.dict()),
+            reset_time=qt_cfg.reset,
         )
         if not (key := get_scope_key(event, qt_cfg.type)):
             return

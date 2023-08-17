@@ -21,7 +21,7 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        run: pdm install --prod
+        run: pdm install
 
       - run: echo "$(pdm venv --path in-project)/bin" >> $GITHUB_PATH
 

@@ -124,7 +124,8 @@ executionEnvironments = [
 reportShadowedImports = false
 
 [tool.pdm.scripts]
-lint = "black --check --diff --color ."
+format = "black --check --diff --color ."
+lint = "ruff ."
 fix = "black ."
 post_install = "pre-commit install"
 

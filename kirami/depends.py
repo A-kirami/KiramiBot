@@ -34,7 +34,7 @@ from playwright.async_api import (
 
 from kirami.database import Group, User
 from kirami.matcher import Matcher
-from kirami.service.limiter import Cooldown, LimitScope, Quota, get_scope_key
+from kirami.service.limiter import Cooldown, LimitScope, Lock, Quota, get_scope_key
 from kirami.service.service import Ability
 from kirami.service.subject import Subjects as Subjects
 from kirami.typing import (
@@ -462,3 +462,43 @@ def useQuota(
         await quota.consume(key)
 
     return check_quota
+
+
+def useLock(
+    max_count: int = 1,
+    *,
+    prompt: str | None = None,
+    scope: LimitScope = LimitScope.LOCAL,
+    **kwargs: Any,
+) -> None:
+    """使用事件锁定限制"""
+
+    @depends
+    async def check_lock(matcher: Matcher, event: Event) -> AsyncGenerator[Lock, None]:
+        name = f"depends:{Ability.got(matcher).id}"
+        if not (lock := Lock.get(name)):
+            lock = Lock(
+                matcher=matcher.__class__,
+                scope=scope,
+                prompt=prompt,
+                max_count=max_count,
+            )
+            Lock.set(name, lock)
+
+        if not (key := get_scope_key(event, scope)):
+            return
+
+        if not lock.check(key):
+            await matcher.finish(
+                prompt.format(**lock.get_info(key)) if prompt else None,
+                **kwargs,
+            )
+
+        lock.claim(key)
+
+        try:
+            yield lock
+        finally:
+            lock.unclaim(key)
+
+    return check_lock

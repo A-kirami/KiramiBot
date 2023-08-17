@@ -114,6 +114,15 @@ unfixable = ["F401", "F841", "ERA001"]
 [tool.ruff.flake8-annotations]
 suppress-dummy-args = true
 
+[tool.pyright]
+typeCheckingMode = "basic"
+pythonVersion = "3.10"
+pythonPlatform = "All"
+executionEnvironments = [
+    { root = "./" },
+]
+reportShadowedImports = false
+
 [tool.pdm.scripts]
 lint = "black --check --diff --color ."
 fix = "black ."

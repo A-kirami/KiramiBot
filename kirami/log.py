@@ -14,6 +14,7 @@ from loguru import logger
 from loguru._file_sink import FileSink
 from loguru._handler import Message
 from loguru._logger import Core, Logger
+from nonebot.log import LoguruHandler as LoguruHandler
 from rich.columns import Columns as Columns
 from rich.console import Console
 from rich.logging import RichHandler

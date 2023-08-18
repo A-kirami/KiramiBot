@@ -330,7 +330,7 @@ def on_request(*, _depth: int = 0, **kwargs) -> MatcherCase:
 
 
 def on_command(
-    *cmds: str,
+    *cmds: str | tuple[str, ...],
     force_whitespace: str | bool | None = None,
     rule: Rule | T_RuleChecker | None = None,
     _depth: int = 0,
@@ -374,7 +374,7 @@ def on_command(
 
 
 def on_shell_command(
-    *cmds: str,
+    *cmds: str | tuple[str, ...],
     parser: ArgumentParser | None = None,
     rule: Rule | T_RuleChecker | None = None,
     _depth: int = 0,
@@ -783,7 +783,7 @@ class CommandGroup(BaseCommandGroup):
     """命令组，用于声明一组有相同名称前缀的命令。
 
     ### 参数
-        *cmds: 指定命令内容
+        cmd: 指定命令内容
 
         prefix_aliases: 是否影响命令别名，给命令别名加前缀
 
@@ -813,10 +813,10 @@ class CommandGroup(BaseCommandGroup):
     if TYPE_CHECKING:
         matchers: list[MatcherCase]
 
-    def __init__(self, *cmds: str, **kwargs) -> None:
-        super().__init__(cmds, **kwargs)
+    def __init__(self, cmd: str | tuple[str, ...], **kwargs) -> None:
+        super().__init__(cmd, **kwargs)
 
-    def command(self, *cmds: str, **kwargs) -> MatcherCase:
+    def command(self, *cmds: str | tuple[str, ...], **kwargs) -> MatcherCase:
         """注册一个新的命令。
 
         新参数将会覆盖命令组默认值。
@@ -858,7 +858,7 @@ class CommandGroup(BaseCommandGroup):
         self.matchers.append(matcher)
         return matcher
 
-    def shell_command(self, *cmds: str, **kwargs) -> MatcherCase:
+    def shell_command(self, *cmds: str | tuple[str, ...], **kwargs) -> MatcherCase:
         """注册一个新的 `shell_like` 命令。新参数将会覆盖命令组默认值。
 
         ### 参数
@@ -1056,7 +1056,7 @@ class MatcherGroup(BaseMatcherGroup):
         self.matchers.append(matcher)
         return matcher
 
-    def on_command(self, *cmds: str, **kwargs) -> MatcherCase:
+    def on_command(self, *cmds: str | tuple[str, ...], **kwargs) -> MatcherCase:
         """注册一个消息事件响应器，并且当消息以指定命令开头时响应。
 
         ### 参数
@@ -1091,7 +1091,7 @@ class MatcherGroup(BaseMatcherGroup):
         self.matchers.append(matcher)
         return matcher
 
-    def on_shell_command(self, *cmds: str, **kwargs) -> MatcherCase:
+    def on_shell_command(self, *cmds: str | tuple[str, ...], **kwargs) -> MatcherCase:
         """注册一个支持 `shell_like` 解析参数的命令消息事件响应器。
 
         与普通的 `on_command` 不同的是，在添加 `parser` 参数时, 响应器会自动处理消息。

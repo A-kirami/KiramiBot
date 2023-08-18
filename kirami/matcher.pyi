@@ -127,7 +127,7 @@ def on_request(
     state: State | None = None,
 ) -> MatcherCase: ...
 def on_command(
-    *cmds: str,
+    *cmds: str | tuple[str, ...],
     force_whitespace: str | bool | None = None,
     rule: Rule | T_RuleChecker | None = None,
     permission: Permission | T_PermissionChecker | None = None,
@@ -142,7 +142,7 @@ def on_command(
     argot: bool = False,
 ) -> MatcherCase: ...
 def on_shell_command(
-    *cmds: str,
+    *cmds: str | tuple[str, ...],
     parser: ArgumentParser | None = None,
     rule: Rule | T_RuleChecker | None = None,
     permission: Permission | T_PermissionChecker | None = None,
@@ -481,7 +481,7 @@ class CommandGroup(BaseCommandGroup):
     prefix_aliases: bool = ...
     def __init__(
         self,
-        *cmds: str,
+        cmd: str | tuple[str, ...],
         prefix_aliases: bool = False,
         rule: Rule | T_RuleChecker | None = None,
         permission: Permission | T_PermissionChecker | None = None,
@@ -497,7 +497,7 @@ class CommandGroup(BaseCommandGroup):
     ) -> None: ...
     def command(
         self,
-        *cmds: str,
+        *cmds: str | tuple[str, ...],
         force_whitespace: str | bool | None = None,
         rule: Rule | T_RuleChecker | None = None,
         permission: Permission | T_PermissionChecker | None = None,
@@ -513,7 +513,7 @@ class CommandGroup(BaseCommandGroup):
     ) -> MatcherCase: ...
     def shell_command(
         self,
-        *cmds: str,
+        *cmds: str | tuple[str, ...],
         parser: ArgumentParser | None = None,
         rule: Rule | T_RuleChecker | None = None,
         permission: Permission | T_PermissionChecker | None = None,
@@ -621,7 +621,7 @@ class MatcherGroup(BaseMatcherGroup):
     ) -> MatcherCase: ...
     def on_command(
         self,
-        *cmds: str,
+        *cmds: str | tuple[str, ...],
         force_whitespace: str | bool | None = None,
         rule: Rule | T_RuleChecker | None = None,
         permission: Permission | T_PermissionChecker | None = None,
@@ -637,7 +637,7 @@ class MatcherGroup(BaseMatcherGroup):
     ) -> MatcherCase: ...
     def on_shell_command(
         self,
-        *cmds: str,
+        *cmds: str | tuple[str, ...],
         parser: ArgumentParser | None = None,
         rule: Rule | T_RuleChecker | None = None,
         permission: Permission | T_PermissionChecker | None = None,

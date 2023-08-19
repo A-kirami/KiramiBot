@@ -85,8 +85,8 @@ D_Service = Annotated[Service, useService()]
 
 
 @depends
-def useAbility(matcher: Matcher) -> Ability:
-    return Ability.got(matcher)
+def useAbility(matcher: Matcher) -> Ability | None:
+    return None if not matcher.priority and matcher.temp else Ability.got(matcher)
 
 
 D_Ability = Annotated[Ability, useAbility()]

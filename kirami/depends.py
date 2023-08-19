@@ -3,11 +3,12 @@
 from collections.abc import AsyncGenerator
 from datetime import time
 from re import Match
-from typing import Annotated, Any, Literal, TypeAlias
+from typing import Annotated, Any, Literal, TypeAlias, TypeVar
 
 from httpx._types import ProxiesTypes, VerifyTypes
 from nonebot.exception import ParserExit
 from nonebot.internal.params import Arg as useArg
+from nonebot.internal.params import ArgInner
 from nonebot.internal.params import ArgPlainText as useArgPlainText
 from nonebot.internal.params import ArgStr as useArgStr
 from nonebot.internal.params import DependsInner as BaseDependsInner
@@ -44,7 +45,6 @@ from kirami.typing import (
     Message,
     MessageEvent,
     MessageSegment,
-    State,
     T_Handler,
 )
 from kirami.utils import (
@@ -294,14 +294,15 @@ ClientSession = Annotated[AsyncClient, useClientSession()]
 """网络连接会话对象"""
 
 
-def useArgotArg(key: str | None = None) -> Any:
-    """提取暗语中的字段"""
+def useArgot(key: str | None = None) -> Any:
+    """提取暗语的内容"""
+    return ArgInner(key, type="argot")  # type: ignore
 
-    @depends
-    def argot_arg(state: State) -> Any:
-        return state.argot[key] if key else state.argot
 
-    return argot_arg
+T = TypeVar("T")
+
+Argot = Annotated[T, useArgot()]
+"""暗语内容"""
 
 
 def useWebContext(**kwargs) -> BrowserContext:

@@ -4,7 +4,7 @@ import asyncio
 import re
 import time
 from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, Any, Literal, NoReturn
+from typing import TYPE_CHECKING, Any, Literal, NoReturn, TypeVar
 
 from nonebot import get_bots
 from nonebot.adapters import Bot, Event
@@ -46,6 +46,8 @@ from kirami.rule import ArgotRule, ReplyRule, TimerRule, prefix, suffix
 from kirami.state import State
 from kirami.utils import scheduler
 
+T = TypeVar("T")
+
 _param_rules = {
     "to_me": ToMeRule,
     "reply": ReplyRule,
@@ -62,6 +64,8 @@ def _extend_rule(rule: Rule | T_RuleChecker | None, **kwargs) -> Rule:
 
 
 class Matcher(BaseMatcher):
+    state: State
+
     @classmethod
     def destroy(cls) -> None:
         for checker in cls.rule.checkers:
@@ -124,6 +128,13 @@ class Matcher(BaseMatcher):
             **kwargs: 用于传递给 API 的参数
         """
         await super().finish(message, **kwargs)
+
+    def get_argot(self, key: str | None = None, default: T | None = None) -> Any | T:
+        """获取指定的 `argot` 内容
+
+        如果没有找到对应的内容，返回 `default` 值
+        """
+        return self.state.argot.get(key, default) if key else self.state.argot
 
 
 class MatcherCase:

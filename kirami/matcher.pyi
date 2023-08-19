@@ -1,6 +1,6 @@
 import re
 from datetime import datetime, timedelta, tzinfo
-from typing import Any, Literal, NoReturn, overload
+from typing import Any, Literal, NoReturn, TypeVar, overload
 
 from nonebot.dependencies import Dependent
 from nonebot.matcher import Matcher as BaseMatcher
@@ -24,7 +24,10 @@ from kirami.typing import (
 
 # ruff: noqa: PYI021
 
+_T = TypeVar("_T")
+
 class Matcher(BaseMatcher):
+    state: State
     @classmethod
     async def send(
         cls,
@@ -47,6 +50,12 @@ class Matcher(BaseMatcher):
         argot_content: dict[str, Any] | None = None,
         **kwargs,
     ) -> NoReturn: ...
+    @overload
+    def get_argot(self, key: None = None) -> dict[str, Any]: ...
+    @overload
+    def get_argot(self, key: str, default: _T) -> Any | _T: ...
+    @overload
+    def get_argot(self, key: str, default: None = None) -> Any | None: ...
 
 class MatcherCase(Matcher):
     matcher: type[Matcher] = ...

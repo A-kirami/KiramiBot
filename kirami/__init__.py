@@ -38,7 +38,8 @@ from nonebot.plugin.plugin import Plugin
 
 from kirami import hook
 from kirami.config import bot_config, kirami_config, plugin_config
-from kirami.log import Columns, Panel, Text, console, logger
+from kirami.log import Columns, Panel, Text, console
+from kirami.log import logger as logger
 from kirami.server import Server
 from kirami.version import __metadata__, __version__
 

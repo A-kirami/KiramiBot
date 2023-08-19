@@ -193,3 +193,27 @@ def get_plaintext(self: Event) -> str:
 
 
 Event.get_plaintext = get_plaintext
+
+# ==============================================================================
+
+from nonebot.internal.params import ArgParam
+
+from kirami.matcher import Matcher
+
+
+async def _solve(self: ArgParam, matcher: Matcher, **_kwargs: Any) -> Any:
+    """支持 Argot"""
+    key: str = self.extra["key"]
+    if self.extra["type"] == "argot":
+        return matcher.get_argot(key)
+    message = matcher.get_arg(key)
+    if message is None:
+        return message
+    if self.extra["type"] == "message":
+        return message
+    if self.extra["type"] == "str":
+        return str(message)
+    return message.extract_plain_text()
+
+
+ArgParam._solve = _solve  # type: ignore

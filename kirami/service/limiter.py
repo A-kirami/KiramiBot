@@ -74,6 +74,10 @@ class Limiter(BaseModel, ABC):
     """限制状态提示"""
 
     @abstractmethod
+    def check(self, key: str) -> bool:
+        raise NotImplementedError
+
+    @abstractmethod
     def get_info(self, key: str) -> TypedDict:
         raise NotImplementedError
 
@@ -92,7 +96,7 @@ class Limiter(BaseModel, ABC):
 
 class PersistLimiter(Document, Limiter, ABC):
     name: str = Field(primary_key=True)
-    """限制组名"""
+    """限制器名称"""
 
     _instances: ClassVar[set[Self]] = set()
     _synced: ClassVar[bool] = False

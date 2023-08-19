@@ -26,6 +26,7 @@
 
 from kirami import patch  # isort:skip  # noqa: F401
 
+from pathlib import Path
 from typing import Any, ClassVar
 
 import nonebot
@@ -35,6 +36,7 @@ from nonebot.adapters.onebot.v11 import Bot
 from nonebot.drivers.fastapi import Driver
 from nonebot.plugin.manager import PluginManager, _managers
 from nonebot.plugin.plugin import Plugin
+from nonebot.utils import path_to_module_name
 
 from kirami import hook
 from kirami.config import bot_config, kirami_config, plugin_config
@@ -164,7 +166,11 @@ class KiramiBot:
 
     def load_plugins(self) -> None:
         """加载插件"""
-        manager = PluginManager(plugin_config.plugins, plugin_config.plugin_dirs)
+        plugins = {
+            path_to_module_name(pp) if (pp := Path(p)).exists() else p
+            for p in plugin_config.plugins
+        }
+        manager = PluginManager(plugins, plugin_config.plugin_dirs)
         plugins = manager.available_plugins
         _managers.append(manager)
 

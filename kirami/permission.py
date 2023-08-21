@@ -21,7 +21,7 @@ from kirami.event import Event, GroupMessageEvent
 from kirami.service import Role, Subjects
 
 
-async def role_permission(role: Role) -> Permission:
+def role_permission(role: Role) -> Permission:
     """检查用户是否满足角色要求"""
 
     def _role(event: Event, subjects: Subjects) -> bool:

@@ -31,7 +31,7 @@ def role_permission(role: Role) -> Permission:
             sender_role = "normal" if sender_role in ("member", None) else sender_role
             user_role = Role.roles[sender_role]
         if uid := getattr(event, "user_id", None):
-            user_role = Role.get_user_role(uid, *subjects) or user_role
+            user_role = Role.get_user_role(str(uid), *subjects) or user_role
         return user_role >= role
 
     return Permission(_role)

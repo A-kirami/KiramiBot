@@ -503,3 +503,44 @@ def useLock(
             lock.unclaim(key)
 
     return check_lock
+
+
+def useConfirm(*keywords: str) -> bool:
+    """检查消息是否表示确认"""
+
+    keywords = keywords or ("确认", "确定", "是", "yes", "y")
+
+    @depends
+    async def dependency(message: EventPlainText) -> bool:
+        return any(kw == message for kw in keywords)
+
+    return dependency
+
+
+Confirm: TypeAlias = Annotated[bool, useConfirm()]
+
+
+def useCancel(*keywords: str) -> bool:
+    """检查消息是否表示取消"""
+
+    keywords = keywords or ("取消", "退出", "否", "no", "n")
+
+    @depends
+    async def dependency(message: EventPlainText) -> bool:
+        return any(kw == message for kw in keywords)
+
+    return dependency
+
+
+Cancel: TypeAlias = Annotated[bool, useCancel()]
+
+
+def handleCancel(*keywords: str, prompt: str | None = None) -> None:
+    """检查消息是否表示取消，并结束事件处理"""
+
+    @depends
+    async def dependency(matcher: Matcher, cancel: bool = useCancel(*keywords)) -> None:
+        if cancel:
+            await matcher.finish(prompt)
+
+    return dependency

@@ -79,9 +79,7 @@ class Role(BaseAccess):
         self.roles.pop(self.name, None)
         await super().delete()
 
-    async def assign_user(
-        self, user_id: int | str, subject: Subject | None = None
-    ) -> None:
+    async def assign_user(self, user_id: str, subject: Subject | None = None) -> None:
         """分配用户角色。
 
         ### 参数
@@ -90,12 +88,10 @@ class Role(BaseAccess):
             subject: 范围主体，为 None 时表示全局范围
         """
         subject = subject or Subject("global", "*")
-        self.assigned[subject].add(str(user_id))
+        self.assigned[subject].add(user_id)
         await self.save()
 
-    async def revoke_user(
-        self, user_id: int | str, subject: Subject | None = None
-    ) -> None:
+    async def revoke_user(self, user_id: str, subject: Subject | None = None) -> None:
         """撤销用户角色。
 
         ### 参数
@@ -104,14 +100,14 @@ class Role(BaseAccess):
             subject: 范围主体，为 None 时撤销所有范围的角色
         """
         if subject and user_id in self.assigned[subject]:
-            self.assigned[subject].remove(str(user_id))
+            self.assigned[subject].remove(user_id)
         else:
             for subject in self.assigned:
-                self.assigned[subject].discard(str(user_id))
+                self.assigned[subject].discard(user_id)
         await self.save()
 
     @classmethod
-    def query_user(cls, user_id: int | str, *subjects: Subject) -> set[Self]:
+    def query_user(cls, user_id: str, *subjects: Subject) -> set[Self]:
         """查询用户角色。
 
         ### 参数
@@ -132,7 +128,7 @@ class Role(BaseAccess):
         return user_roles
 
     @classmethod
-    def get_user_role(cls, user_id: int | str, *subjects: Subject) -> Self | None:
+    def get_user_role(cls, user_id: str, *subjects: Subject) -> Self | None:
         """获取用户最大权限角色。
 
         ### 参数

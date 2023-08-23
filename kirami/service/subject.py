@@ -14,7 +14,7 @@ from nonebot.utils import run_coro_with_catch
 from typing_extensions import Self
 
 from kirami.log import logger
-from kirami.typing import Bot, Event, GroupMessageEvent, MessageEvent, State
+from kirami.typing import Bot, Event, GroupMessageEvent, MessageEvent
 
 
 class Subject(str):
@@ -62,14 +62,13 @@ def register_extractor(extractor: T_SubjectExtractor) -> T_SubjectExtractor:
     return extractor
 
 
-async def extractor_subjects(bot: Bot, event: Event, state: State) -> set[Subject]:
+async def extractor_subjects(bot: Bot, event: Event) -> set[Subject]:
     async with AsyncExitStack() as stack:
         coros = [
             run_coro_with_catch(
                 extractor(
                     bot=bot,
                     event=event,
-                    state=state,
                     stack=stack,
                     dependency_cache={},
                 ),

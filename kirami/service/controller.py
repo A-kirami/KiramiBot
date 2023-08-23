@@ -131,7 +131,7 @@ async def role_checker(
         sender_role = "normal" if sender_role in ("member", None) else sender_role
         role = Role.roles[sender_role]
     if uid := getattr(event, "user_id", None):
-        role = Role.get_user_role(uid, *subjects) or role
+        role = Role.get_user_role(str(uid), *subjects) or role
     if role >= Role.roles[ability.role.user]:
         return
     if role >= Role.roles[service.role.user]:

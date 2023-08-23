@@ -17,6 +17,7 @@ from nonebot.plugin import Plugin
 from kirami.exception import ServiceError
 from kirami.hook import on_startup
 from kirami.log import logger
+from kirami.matcher import MatcherCase
 from kirami.utils import load_data
 
 from .service import Ability, Service
@@ -173,7 +174,9 @@ class ServiceManager:
         for matcher in matchers:
             if members := inspect.getmembers(
                 matcher.module,
-                lambda x: x is matcher,  # noqa: B023
+                lambda x, m=matcher: x.matcher is m
+                if isinstance(x, MatcherCase)
+                else x is m,
             ):
                 name, _ = members[0]
             else:

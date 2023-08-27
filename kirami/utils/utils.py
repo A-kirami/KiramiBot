@@ -2,7 +2,7 @@ import asyncio
 import inspect
 import json
 from collections.abc import Callable, Coroutine
-from datetime import datetime, time, timedelta
+from datetime import datetime, time, timedelta, tzinfo
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
@@ -475,3 +475,22 @@ def get_daily_datetime(datetime_time: time) -> datetime:
         )
 
     return daily_datetime.astimezone()
+
+
+def get_humanize_time(time: str, tzinfo: tzinfo | None = None, **kwargs) -> str:
+    """将时间转换为易读的时间格式。
+
+    ### 参数
+        time: 要转换的时间
+
+        tzinfo: 时区信息
+
+        **kwargs: 其他关键字参数，参考 `arrow.arrow.Arrow.shift` 的参数
+    """
+    raw_time = arrow.get(time, tzinfo=tzinfo)
+    current_time = arrow.now(tz=tzinfo)
+    shift_time = {key: -abs(value) for key, value in kwargs.items()} or {"days": -1}
+    threshold_time = current_time.shift(**shift_time)
+    if raw_time < threshold_time:
+        return raw_time.format("YYYY-MM-DD HH:mm:ss")
+    return raw_time.humanize(locale="zh-CN")

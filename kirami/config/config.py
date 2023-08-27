@@ -52,7 +52,12 @@ class BaseConfig(BaseModel, Mapping):
         return self.__dict__.keys()
 
     @classmethod
-    def load(cls, namespace: str | None = None) -> Self:
+    def load_config(cls, namespace: str | None = None) -> Self:
+        """加载配置。
+
+        ### 参数
+            namespace: 配置的命名空间，如果为 None 则自动查找并使用插件名称
+        """
         if namespace is None and (plugin := find_plugin(cls)):
             namespace = plugin.name
 

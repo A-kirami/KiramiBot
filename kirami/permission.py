@@ -17,21 +17,14 @@ from nonebot.permission import USER as USER
 from nonebot.permission import Permission as Permission
 from nonebot.permission import User as User
 
-from kirami.event import Event, GroupMessageEvent
-from kirami.service import Role, Subjects
+from kirami.depends import UserRole
+from kirami.service import Role
 
 
 def role_permission(role: Role) -> Permission:
     """检查用户是否满足角色要求"""
 
-    def _role(event: Event, subjects: Subjects) -> bool:
-        user_role = Role.roles["normal"]
-        if isinstance(event, GroupMessageEvent):
-            sender_role = event.sender.role
-            sender_role = "normal" if sender_role in ("member", None) else sender_role
-            user_role = Role.roles[sender_role]
-        if uid := getattr(event, "user_id", None):
-            user_role = Role.get_user_role(str(uid), *subjects) or user_role
+    def _role(user_role: UserRole) -> bool:
         return user_role >= role
 
     return Permission(_role)

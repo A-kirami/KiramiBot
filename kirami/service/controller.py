@@ -10,12 +10,12 @@ from nonebot.message import RUN_PREPCS_PARAMS
 from nonebot.typing import _DependentCallable
 from nonebot.utils import run_coro_with_catch
 
-from kirami.depends import depends
+from kirami.depends import UserRole, depends
 from kirami.exception import IgnoredException
 from kirami.hook import before_run
 from kirami.log import logger
 from kirami.matcher import Matcher
-from kirami.typing import Bot, Event, GroupMessageEvent, MessageEvent, State
+from kirami.typing import Bot, Event, MessageEvent, State
 
 from .access import Policy, Role
 from .limiter import Cooldown, Quota, get_scope_key
@@ -121,17 +121,8 @@ async def enabled_checker(
 
 
 @register_checker
-async def role_checker(
-    event: Event, service: D_Service, ability: D_Ability, subjects: Subjects
-) -> None:
+async def role_checker(service: D_Service, ability: D_Ability, role: UserRole) -> None:
     """角色检查"""
-    role = Role.roles["normal"]
-    if isinstance(event, GroupMessageEvent):
-        sender_role = event.sender.role
-        sender_role = "normal" if sender_role in ("member", None) else sender_role
-        role = Role.roles[sender_role]
-    if uid := getattr(event, "user_id", None):
-        role = Role.get_user_role(str(uid), *subjects) or role
     if role >= Role.roles[ability.role.user]:
         return
     if role >= Role.roles[service.role.user]:

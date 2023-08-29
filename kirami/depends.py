@@ -28,13 +28,11 @@ from nonebot.params import RegexStr as useRegexStr
 from nonebot.params import ShellCommandArgs as useShellCommandArgs
 from nonebot.params import ShellCommandArgv as useShellCommandArgv
 from nonebot.rule import Namespace
-from playwright.async_api import (
-    BrowserContext,
-    Page,
-)
+from playwright.async_api import BrowserContext, Page
 
 from kirami.database import Group, User
 from kirami.matcher import Matcher
+from kirami.service.access import Role
 from kirami.service.limiter import Cooldown, LimitScope, Lock, Quota, get_scope_key
 from kirami.service.service import Ability
 from kirami.service.subject import Subjects as Subjects
@@ -42,6 +40,7 @@ from kirami.typing import (
     AsyncClient,
     Bot,
     Event,
+    GroupMessageEvent,
     Message,
     MessageEvent,
     MessageSegment,
@@ -544,3 +543,18 @@ def handleCancel(*keywords: str, prompt: str | None = None) -> None:
             await matcher.finish(prompt)
 
     return dependency
+
+
+@depends
+def useUserRole(event: Event, subjects: Subjects) -> Role:
+    role = Role.roles["normal"]
+    if isinstance(event, GroupMessageEvent):
+        sender_role = event.sender.role
+        sender_role = "normal" if sender_role in ("member", None) else sender_role
+        role = Role.roles[sender_role]
+    if uid := getattr(event, "user_id", None):
+        role = Role.get_user_role(str(uid), *subjects) or role
+    return role
+
+
+UserRole: TypeAlias = Annotated[Role, useUserRole()]

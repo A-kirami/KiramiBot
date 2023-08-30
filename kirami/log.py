@@ -209,7 +209,7 @@ LOG_CONFIG = {
 }
 
 
-def file_handler(levels: LevelName | tuple[LevelName]) -> list[dict[str, Any]]:
+def file_handler(levels: LevelName | tuple[LevelName, ...]) -> list[dict[str, Any]]:
     if not isinstance(levels, tuple):
         level_names = get_args(LevelName)
         minimum = level_names.index(levels)

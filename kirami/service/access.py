@@ -42,23 +42,43 @@ class Role(BaseAccess):
     def __hash__(self) -> int:
         return super().__hash__()
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: str | Self) -> bool:
+        if isinstance(other, str):
+            other = self.roles[other]
         return self.name == other.name
 
-    def __ne__(self, other: Self) -> bool:
+    def __ne__(self, other: str | Self) -> bool:
+        if isinstance(other, str):
+            other = self.roles[other]
         return self.name != other.name
 
-    def __lt__(self, other: Self) -> bool:
+    def __lt__(self, other: str | Self) -> bool:
+        if isinstance(other, str):
+            other = self.roles[other]
         return self.weight < other.weight
 
-    def __gt__(self, other: Self) -> bool:
+    def __gt__(self, other: str | Self) -> bool:
+        if isinstance(other, str):
+            other = self.roles[other]
         return self.weight > other.weight
 
-    def __le__(self, other: Self) -> bool:
+    def __le__(self, other: str | Self) -> bool:
+        if isinstance(other, str):
+            other = self.roles[other]
         return self.weight <= other.weight
 
-    def __ge__(self, other: Self) -> bool:
+    def __ge__(self, other: str | Self) -> bool:
+        if isinstance(other, str):
+            other = self.roles[other]
         return self.weight >= other.weight
+
+    def check(self, role: str | Self) -> bool:
+        """检查角色是否满足要求。
+
+        ### 参数
+            role: 角色名称或角色对象
+        """
+        return self >= role
 
     @classmethod
     def create(cls, name: str, weight: int, remark: str = "") -> Self:

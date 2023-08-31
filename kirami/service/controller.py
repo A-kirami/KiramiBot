@@ -17,7 +17,7 @@ from kirami.log import logger
 from kirami.matcher import Matcher
 from kirami.typing import Bot, Event, MessageEvent, State
 
-from .access import Policy, Role
+from .access import Policy
 from .limiter import Cooldown, Quota, get_scope_key
 from .manager import ServiceManager
 from .service import Ability, Service
@@ -123,9 +123,9 @@ async def enabled_checker(
 @register_checker
 async def role_checker(service: D_Service, ability: D_Ability, role: UserRole) -> None:
     """角色检查"""
-    if role >= Role.roles[ability.role.user]:
+    if role.check(ability.role.user):
         return
-    if role >= Role.roles[service.role.user]:
+    if role.check(service.role.user):
         return
     raise IgnoredException(f"用户角色权限不足, 服务或功能至少需要{role.name}, 当前为{role.name}")
 

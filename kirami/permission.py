@@ -25,6 +25,6 @@ def role_permission(role: Role) -> Permission:
     """检查用户是否满足角色要求"""
 
     def _role(user_role: UserRole) -> bool:
-        return user_role >= role
+        return user_role.check(role)
 
     return Permission(_role)

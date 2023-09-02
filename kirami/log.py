@@ -4,7 +4,6 @@ import builtins
 import logging
 import re
 from collections.abc import Callable
-from datetime import datetime
 from functools import wraps
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypeAlias, get_args
 
@@ -216,9 +215,7 @@ def file_handler(levels: LevelName | tuple[LevelName, ...]) -> list[dict[str, An
         levels = level_names[minimum:]
     return [
         {
-            "sink": LOG_DIR
-            / level.lower()
-            / f"{level.lower()}-{datetime.now().date()}.log",
+            "sink": LOG_DIR / level.lower() / "{time:YYYY-MM-DD}.log",
             "level": level,
             **LOG_CONFIG,
         }

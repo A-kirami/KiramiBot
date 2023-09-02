@@ -118,13 +118,20 @@ async def install_browser() -> None:
     try:
         logger.debug("Install dependencies necessary to run browsers")
         subprocess.run([playwright_cmd, "install-deps"], check=True)  # noqa: S603
+    except subprocess.CalledProcessError:
+        logger.opt(exception=True).error("Playwright 依赖安装失败，请检查网络状况或尝试手动安装")
+        return
+
+    try:
         logger.debug("Install browsers for this version of Playwright")
         main()
-        logger.success(f"{bot_config.browser} 浏览器安装成功")
-    except subprocess.CalledProcessError as e:
-        logger.opt(colors=True, exception=e).error(
-            f"{bot_config.browser} 浏览器安装失败，请检查网络状况或尝试手动安装"
-        )
+    except SystemExit as e:
+        if e.code != 0:
+            logger.opt(exception=True).error(
+                f"{bot_config.browser} 浏览器安装失败，请检查网络状况或尝试手动安装"
+            )
+        else:
+            logger.success(f"{bot_config.browser} 浏览器安装成功")
 
 
 on_shutdown(WebWright.stop)

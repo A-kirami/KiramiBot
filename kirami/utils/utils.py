@@ -10,6 +10,7 @@ from typing import Any, Literal, ParamSpec, TypeVar, overload
 
 import arrow
 import yaml
+from arrow import Arrow
 from flowery import Imager
 from httpx import Response
 from httpx._types import QueryParamTypes, RequestData
@@ -477,7 +478,9 @@ def get_daily_datetime(datetime_time: time) -> datetime:
     return daily_datetime.astimezone()
 
 
-def get_humanize_time(time: str, tzinfo: tzinfo | None = None, **kwargs) -> str:
+def get_humanize_time(
+    time: Arrow | datetime | str | float, tzinfo: tzinfo | None = None, **kwargs
+) -> str:
     """将时间转换为易读的时间格式。
 
     ### 参数
@@ -487,7 +490,7 @@ def get_humanize_time(time: str, tzinfo: tzinfo | None = None, **kwargs) -> str:
 
         **kwargs: 其他关键字参数，参考 `arrow.arrow.Arrow.shift` 的参数
     """
-    raw_time = arrow.get(time, tzinfo=tzinfo)
+    raw_time = arrow.get(time, tzinfo=tzinfo) if tzinfo else arrow.get(time)
     current_time = arrow.now(tz=tzinfo)
     shift_time = {key: -abs(value) for key, value in kwargs.items()} or {"days": -1}
     threshold_time = current_time.shift(**shift_time)

@@ -1,9 +1,8 @@
 ﻿changelog:
   categories:
-    - title: 💥 破坏性更新
+    - title: 💥 破坏性
       labels:
-        - Semver-Major
-        - breaking-change
+        - breaking
     - title: ✨ 新特性
       labels:
         - enhancement

@@ -39,34 +39,28 @@ P = ParamSpec("P")
 
 
 def get_path(file: str | Path, *, depth: int = 0) -> Path:
-    """获取文件的绝对路径。
+    """获取文件或目录的绝对路径。
 
     ### 参数
-        file: 文件路径，如果为相对路径，则相对于当前文件的父目录
+        file: 文件或目录路径，如果为相对路径，则相对于当前调用者所在文件(即 `__file__`)的父目录
 
         depth: 调用栈深度。默认为 0，即当前函数调用栈的深度
-
-    ### 异常
-        FileNotExistError: 文件不存在
     """
     if Path(file).is_absolute():
         path = Path(file)
     else:
         path = Path(inspect.stack()[depth + 1].filename).parent / file
 
-    if path.is_file():
-        return path.resolve()
-
-    raise FileNotExistError(f"找不到文件: {path}")
+    return path.resolve()
 
 
-def load_data(file: str | Path = "data.json") -> dict[str, Any]:
+def load_data(file: str | Path) -> dict[str, Any]:
     """读取文件数据。
 
     支持的文件格式有：`json`、`yaml`、`toml`。
 
     ### 参数
-        file: 文件路径，如果为相对路径，则相对于当前文件的父目录。默认为 `data.json`
+        file: 文件路径，如果为相对路径，则相对于当前文件的父目录
 
     ### 返回
         解析后的数据
@@ -77,16 +71,19 @@ def load_data(file: str | Path = "data.json") -> dict[str, Any]:
         ValueError: 文件格式不支持
     """
     data_path = get_path(file, depth=1)
-    data = data_path.read_text(encoding="utf-8")
+    if not data_path.exists():
+        raise FileNotExistError(f"找不到文件: {data_path}")
 
-    if data_path.suffix == ".json":
+    data = data_path.read_text(encoding="utf-8")
+    file_type = data_path.suffix.removeprefix(".")
+    if file_type == "json":
         file_data = json.loads(data)
-    elif data_path.suffix in (".yml", ".yaml"):
+    elif file_type in ("yml", "yaml"):
         file_data = yaml.safe_load(data)
-    elif data_path.suffix == ".toml":
+    elif file_type == "toml":
         file_data = tomllib.loads(data)
     else:
-        raise ReadFileError(f"不支持的文件格式: {data_path.suffix}, 只能是 .json、.yaml 或 .toml。")
+        raise ReadFileError(f"不支持的文件类型: {file_type}, 只能是 json、yaml 或 toml")
 
     if file_data is None:
         raise ReadFileError(f"文件内容为空: {data_path}")

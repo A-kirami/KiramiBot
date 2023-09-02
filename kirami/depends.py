@@ -6,6 +6,7 @@ from re import Match
 from typing import Annotated, Any, Literal, TypeAlias, TypeVar
 
 from httpx._types import ProxiesTypes, VerifyTypes
+from nonebot.adapters import Message, MessageSegment
 from nonebot.exception import ParserExit
 from nonebot.internal.params import Arg as useArg
 from nonebot.internal.params import ArgInner
@@ -41,9 +42,7 @@ from kirami.typing import (
     Bot,
     Event,
     GroupMessageEvent,
-    Message,
     MessageEvent,
-    MessageSegment,
     T_Handler,
 )
 from kirami.utils import (

@@ -7,9 +7,9 @@ from collections.abc import Callable
 from functools import wraps
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypeAlias, get_args
 
+import loguru
 import nonebot
 import rich
-from loguru import logger
 from loguru._file_sink import FileSink
 from loguru._handler import Message
 from loguru._logger import Core, Logger
@@ -33,6 +33,8 @@ if TYPE_CHECKING:
 
 # ruff: noqa: ANN001
 
+logger: Logger = loguru.logger  # type: ignore
+"""KiramiBot 日志记录器对象"""
 
 LevelName: TypeAlias = Literal[
     "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"

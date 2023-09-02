@@ -29,11 +29,12 @@ from rich.traceback import install
 from kirami.config import LOG_DIR, bot_config, log_config
 
 if TYPE_CHECKING:
+    from loguru import Logger as LoggerType
     from loguru import Record
 
 # ruff: noqa: ANN001
 
-logger: Logger = loguru.logger  # type: ignore
+logger: "LoggerType" = loguru.logger
 """KiramiBot 日志记录器对象"""
 
 LevelName: TypeAlias = Literal[
@@ -242,7 +243,9 @@ logger.configure(
 )
 
 
-def new_logger(name: str, *, filter_level: LevelName | int | None = None) -> Logger:
+def new_logger(
+    name: str, *, filter_level: LevelName | int | None = None
+) -> "LoggerType":
     """创建新的日志记录器。
 
     ### 参数
@@ -250,4 +253,6 @@ def new_logger(name: str, *, filter_level: LevelName | int | None = None) -> Log
 
         filter_level: 过滤等级，当日志等级大于过滤等级时才会显示
     """
-    return logger.patch(lambda record: record.update(name=name)).bind(filter_level=filter_level)  # type: ignore
+    return logger.patch(lambda record: record.update({"name": name})).bind(
+        filter_level=filter_level
+    )

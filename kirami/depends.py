@@ -36,7 +36,7 @@ from kirami.matcher import Matcher
 from kirami.service.access import Role
 from kirami.service.limiter import Cooldown, LimitScope, Lock, Quota, get_scope_key
 from kirami.service.service import Ability
-from kirami.service.subject import Subjects as Subjects
+from kirami.service.subject import EventSubjects as EventSubjects
 from kirami.typing import (
     AsyncClient,
     Bot,
@@ -545,14 +545,14 @@ def handleCancel(*keywords: str, prompt: str | None = None) -> None:
 
 
 @depends
-def useUserRole(event: Event, subjects: Subjects) -> Role:
+def useUserRole(event: Event, subjects: EventSubjects) -> Role:
     role = Role.roles["normal"]
     if isinstance(event, GroupMessageEvent):
         sender_role = event.sender.role
         sender_role = "normal" if sender_role in ("member", None) else sender_role
         role = Role.roles[sender_role]
-    if uid := getattr(event, "user_id", None):
-        role = Role.get_user_role(str(uid), *subjects) or role
+    if hasattr(event, "user_id"):
+        role = Role.get_role(*subjects) or role
     return role
 
 

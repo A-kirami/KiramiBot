@@ -34,6 +34,18 @@ class Subject(str):
     def __repr__(self) -> str:
         return f"Subject({super().__repr__()})"
 
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Subject):
+            raise TypeError(f"Subject can only compare with Subject, not {type(other)}")
+        return (
+            self.type == "*"
+            or other.type in {self.type, "*"}
+            and (self.id == "*" or other.id in {self.id, "*"})
+        )
+
     @classmethod
     def __get_validators__(cls) -> Generator[Callable[..., Self], None, None]:
         yield cls.validate
@@ -88,13 +100,8 @@ async def extractor_subjects(bot: Bot, event: Event) -> set[Subject]:
     raise RuntimeError("unreachable")
 
 
-Subjects = Annotated[set[Subject], Depends(extractor_subjects)]
-"""主体集合"""
-
-
-@register_extractor
-def extract_global() -> Subject:
-    return Subject("global", "*")
+EventSubjects = Annotated[set[Subject], Depends(extractor_subjects)]
+"""事件主体集合"""
 
 
 @register_extractor

@@ -206,6 +206,9 @@ class BotConfig(BaseConfig):
     time_zone: str = "Asia/Shanghai"
     """时区"""
 
+    default_policy_allow: set[str] = {"*"}
+    """默认权限策略允许的内容列表"""
+
     _env_file: str | None = Field(default=None, alias="env_file")
     """配置文件名默认从 `.env.{env_name}` 中读取配置"""
 

@@ -206,7 +206,7 @@ class Ability(BaseConfig, MixinConfig):
     """功能配置"""
 
     id: str = Field(primary_key=True)
-    """唯一标识符，由插件标识符+功能名构成（eg. akirami.hello-world.hello）"""
+    """唯一标识符，由插件标识符+功能名构成（eg. akirami.hello-world#hello）"""
     name: str = ""
     """功能名称"""
     command: str = ""

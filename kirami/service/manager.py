@@ -189,7 +189,7 @@ class ServiceManager:
                     f"Ability name conflict! Duplicate with existing matcher name: {name}"
                 )
             ability = Ability(
-                id=f"{service.id}.{name}", **configs.get(name, {"name": name})  # type: ignore
+                id=f"{service.id}#{name}", **configs.get(name, {"name": name})  # type: ignore
             )
             ability.bind(matcher)
             abilities[name] = ability

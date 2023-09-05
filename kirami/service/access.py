@@ -1,7 +1,7 @@
 """本模块定义了权限系统的基本数据结构, 包括角色和策略"""
 
 import asyncio
-from collections import defaultdict
+from abc import ABC, abstractmethod
 from typing import ClassVar
 
 from mango import Document, Field
@@ -13,7 +13,7 @@ from kirami.hook import on_startup
 from .subject import Subject
 
 
-class BaseAccess(Document):
+class BaseAccess(Document, ABC):
     name: str = Field(primary_key=True)
     """权限名称"""
     remark: str = ""
@@ -22,22 +22,23 @@ class BaseAccess(Document):
     def __hash__(self) -> int:
         return hash(self.name)
 
+    @abstractmethod
     async def sync(self) -> None:
         """从数据库同步"""
-        if access := await self.get(self.name):
-            await self.update(**access.dict())
+        raise NotImplementedError
+
+    class Meta:
+        bson_encoders = {frozenset: list}
 
 
 class Role(BaseAccess):
     weight: int
     """角色权重"""
-    assigned: defaultdict[Subject, set[str]] = Field(
-        default_factory=lambda: defaultdict(set), init=False
-    )
-    """分配此角色的用户, 键表示范围, 值表示用户id"""
+    assigned: set[frozenset[Subject]] = Field(default_factory=set, init=False)
+    """已分配此角色的主体的集合"""
 
     roles: ClassVar[dict[str, Self]] = {}
-    """角色列表"""
+    """所有角色的字典"""
 
     def __hash__(self) -> int:
         return super().__hash__()
@@ -72,8 +73,13 @@ class Role(BaseAccess):
             other = self.roles[other]
         return self.weight >= other.weight
 
+    async def sync(self) -> None:
+        if role := await self.get(self.name):
+            self.assigned = role.assigned
+            await self.save()
+
     def check(self, role: str | Self) -> bool:
-        """检查角色是否满足要求。
+        """检查当前角色的权重是否大于等于给定角色的权重。
 
         ### 参数
             role: 角色名称或角色对象
@@ -99,83 +105,81 @@ class Role(BaseAccess):
         self.roles.pop(self.name, None)
         await super().delete()
 
-    async def assign_user(self, user_id: str, subject: Subject | None = None) -> None:
-        """分配用户角色。
+    async def assign_role(self, *subjects: Subject) -> None:
+        """分配角色到指定主体。
 
         ### 参数
-            user_id: 用户 ID
-
-            subject: 范围主体，为 None 时表示全局范围
+            *subjects: 分配角色的主体对象
         """
-        subject = subject or Subject("global", "*")
-        self.assigned[subject].add(user_id)
+        self.assigned.add(frozenset(subjects))
         await self.save()
 
-    async def revoke_user(self, user_id: str, subject: Subject | None = None) -> None:
-        """撤销用户角色。
+    async def revoke_role(self, *subjects: Subject) -> None:
+        """撤销指定主体的角色。
 
         ### 参数
-            user_id: 用户 ID
-
-            subject: 范围主体，为 None 时撤销所有范围的角色
+            *subjects: 撤销角色的主体对象
         """
-        if subject and user_id in self.assigned[subject]:
-            self.assigned[subject].remove(user_id)
-        else:
-            for subject in self.assigned:
-                self.assigned[subject].discard(user_id)
+        self.assigned.discard(frozenset(subjects))
         await self.save()
 
     @classmethod
-    def query_user(cls, user_id: str, *subjects: Subject) -> set[Self]:
-        """查询用户角色。
+    def get_all_role(cls, *subjects: Subject) -> set[Self]:
+        """获取指定主体拥有的全部角色。
 
         ### 参数
-            user_id: 用户 ID
-
-            *subjects: 范围主体
-
-        ### 返回
-            用户角色集合
+            *subjects: 指定主体对象
         """
         user_roles = {
             role
             for role in cls.roles.values()
-            if any(user_id in role.assigned[subject] for subject in subjects)
+            if any(asssub.issubset(subjects) for asssub in role.assigned)
         }
-        if user_id in bot_config.superusers:
+        if any(
+            subject.type == "user" and subject.id in bot_config.superusers
+            for subject in subjects
+        ):
             user_roles.add(cls.roles["superuser"])
         return user_roles
 
     @classmethod
-    def get_user_role(cls, user_id: str, *subjects: Subject) -> Self | None:
-        """获取用户最大权限角色。
+    def get_role(cls, *subjects: Subject) -> Self | None:
+        """获取指定主体的最大权重角色。
 
         ### 参数
-            user_id: 用户 ID
-
-            *subjects: 范围主体
-
-        ### 返回
-            用户最大权限角色，若无则返回 None
+            *subjects: 指定主体对象
         """
-        return max(cls.query_user(user_id, *subjects), default=None)
+        return max(cls.get_all_role(*subjects), default=None)
 
 
 class Policy(BaseAccess):
     allow: set[str] = Field(default_factory=set)
-    """授权访问"""
-    applied: set[Subject] = Field(default_factory=set, init=False)
-    """应用此策略的主体"""
+    """授权访问的内容集合"""
+    applied: set[frozenset[Subject]] = Field(default_factory=set, init=False)
+    """已应用此策略的主体集合"""
 
     policies: ClassVar[dict[str, Self]] = {}
-    """策略列表"""
+    """所有策略的字典"""
 
     def __hash__(self) -> int:
         return super().__hash__()
 
+    async def sync(self) -> None:
+        if policy := await self.get(self.name):
+            self.allow = policy.allow
+            self.applied = policy.applied
+            await self.save()
+
+    def check(self, allow: str) -> bool:
+        """检查授权访问是否在策略的授权访问集合中。
+
+        ### 参数
+            allow: 授权访问内容
+        """
+        return allow in self.allow
+
     @classmethod
-    def create_policy(cls, name: str, allow: set[str] | None, remark: str = "") -> Self:
+    def create(cls, name: str, allow: set[str] | None, remark: str = "") -> Self:
         """创建策略。
 
         ### 参数
@@ -193,53 +197,67 @@ class Policy(BaseAccess):
         self.policies.pop(self.name, None)
         await super().delete()
 
-    async def apply_policy(self, subject: Subject) -> None:
-        """应用策略。
+    async def apply_policy(self, *subject: Subject) -> None:
+        """应用策略到指定主体。
 
         ### 参数
-            subject: 应用主体
+            *subject: 应用策略的主体对象
         """
-        self.applied.add(subject)
+        self.applied.add(frozenset(subject))
+        await self.save()
 
-    async def unapply_policy(self, subject: Subject) -> None:
-        """取消策略。
+    async def unapply_policy(self, *subject: Subject) -> None:
+        """取消指定主体的策略。
 
         ### 参数
-            subject: 应用主体
+            *subject: 取消策略的主体对象
         """
-        self.applied.remove(subject)
+        self.applied.discard(frozenset(subject))
+        await self.save()
 
     async def add_allow(self, *allow: str) -> None:
-        """添加授权访问。
+        """添加策略的授权访问内容。
 
         ### 参数
-            *allow: 授权访问
+            *allow: 添加的授权访问内容
         """
         self.allow |= set(allow)
+        await self.save()
 
     async def remove_allow(self, *allow: str) -> None:
-        """移除授权访问。
+        """移除策略的授权访问内容。
 
         ### 参数
-            *allow: 授权访问
+            *allow: 移除的授权访问内容
         """
         self.allow -= set(allow)
+        await self.save()
 
     @classmethod
     def get_policies(cls, *subjects: Subject) -> set[Self]:
-        """获取主体应用的策略。
+        """获取指定主体的全部应用策略。
 
         ### 参数
-            *subjects: 范围主体
-
-        ### 返回
-            主体策略集合
+            *subjects: 指定主体对象
         """
         return {
             policy
             for policy in cls.policies.values()
-            if any(subject in policy.applied for subject in subjects)
+            if any(appsub.issubset(subjects) for appsub in policy.applied)
         }
+
+    @classmethod
+    def get_allowed(cls, *subjects: Subject) -> set[str]:
+        """获取指定主体的全部授权访问内容。
+
+        如果指定主体没有应用策略，则返回 `default_policy_allow` 配置内容。
+
+        ### 参数
+            *subjects: 主体范围
+        """
+        if policies := cls.get_policies(*subjects):
+            return {allow for policy in policies for allow in policy.allow}
+        return bot_config.default_policy_allow
 
 
 Role.roles |= {

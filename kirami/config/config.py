@@ -150,7 +150,10 @@ class BotConfig(BaseConfig):
     """
 
     driver: str = "nonebot.drivers.fastapi"
-    """KiramiBot 运行所使用的 ``Driver``"""
+    """KiramiBot 运行所使用的 `Driver`"""
+
+    adapters: set[str] = {"~onebot.v11"}
+    """KiramiBot 所使用的 `Adapter`"""
 
     host: IPvAnyAddress = IPv4Address("127.0.0.1")  # type: ignore
     """KiramiBot 的 HTTP 和 WebSocket 服务端监听的 IP/主机名"""

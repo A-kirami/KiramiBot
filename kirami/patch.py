@@ -202,8 +202,10 @@ from kirami.matcher import Matcher
 
 
 async def _solve(self: ArgParam, matcher: Matcher, **_kwargs: Any) -> Any:
-    """支持 Argot"""
+    """支持 State、Argot 内容提取"""
     key: str = self.extra["key"]
+    if self.extra["type"] == "state":
+        return matcher.state.get(key)
     if self.extra["type"] == "argot":
         return matcher.get_argot(key)
     message = matcher.get_arg(key)

@@ -1,0 +1,18 @@
+template: $CHANGES
+category-template: "### $TITLE"
+change-template: "- $TITLE ([#$NUMBER]($URL)) @$AUTHOR"
+change-title-escapes: '\<&'
+exclude-labels:
+  - "dependencies"
+  - "skip-changelog"
+categories:
+  - title: "💥 破坏性变更"
+    labels:
+      - "breaking"
+  - title: "✨ 新功能"
+    labels:
+      - "enhancement"
+  - title: "🐛 错误修复"
+    labels:
+      - "bug"
+  - title: "💫 杂项"

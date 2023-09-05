@@ -21,7 +21,7 @@ from .access import Policy
 from .limiter import Cooldown, Quota, get_scope_key
 from .manager import ServiceManager
 from .service import Ability, Service
-from .subject import Subjects
+from .subject import EventSubjects
 
 _checkers: set[Dependent[Any]] = set()
 
@@ -109,7 +109,7 @@ async def event_scope_checker(
 
 @register_checker
 async def enabled_checker(
-    service: D_Service, ability: D_Ability, subjects: Subjects
+    service: D_Service, ability: D_Ability, subjects: EventSubjects
 ) -> None:
     """服务开关检查"""
     if dissbj := ability.get_disabled_subjects(*subjects):
@@ -132,16 +132,15 @@ async def role_checker(service: D_Service, ability: D_Ability, role: UserRole) -
 
 @register_checker
 async def policy_checker(
-    service: D_Service, ability: D_Ability, subjects: Subjects
+    service: D_Service, ability: D_Ability, subjects: EventSubjects
 ) -> None:
     """策略检查"""
-    policies = Policy.get_policies(*subjects)
-    if not policies:
+    allowed = Policy.get_allowed(*subjects)
+    if "*" in allowed:
         return
-    accesses = {allow for policy in policies for allow in policy.allow}
-    if ability.name in accesses:
+    if ability.id in allowed:
         return
-    if service.name in accesses:
+    if service.id in allowed:
         return
     raise IgnoredException(f"主体策略没有访问服务或功能的许可: {', '.join(repr(s) for s in subjects)}")
 

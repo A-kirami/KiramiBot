@@ -21,7 +21,7 @@ from kirami.depends import UserRole
 from kirami.service import Role
 
 
-def role_permission(role: Role) -> Permission:
+def role_permission(role: str | Role) -> Permission:
     """检查用户是否满足角色要求"""
 
     def _role(user_role: UserRole) -> bool:

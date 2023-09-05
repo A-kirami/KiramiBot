@@ -21,6 +21,6 @@ from .limiter import get_scope_key as get_scope_key
 from .manager import ServiceManager as ServiceManager
 from .service import Ability as Ability
 from .service import Service as Service
+from .subject import EventSubjects as EventSubjects
 from .subject import Subject as Subject
-from .subject import Subjects as Subjects
 from .subject import register_extractor as register_extractor

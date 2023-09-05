@@ -54,6 +54,8 @@ from kirami.utils import (
     extract_plain_text,
 )
 
+T = TypeVar("T")
+
 
 class DependsInner(BaseDependsInner):
     def __call__(
@@ -292,12 +294,19 @@ ClientSession = Annotated[AsyncClient, useClientSession()]
 """网络连接会话对象"""
 
 
+def useStateData(key: str | None = None) -> Any:
+    """提取会话状态内容"""
+    return ArgInner(key, type="state")  # type: ignore
+
+
+StateData = Annotated[T, useStateData()]
+"""会话状态内容"""
+
+
 def useArgot(key: str | None = None) -> Any:
     """提取暗语的内容"""
     return ArgInner(key, type="argot")  # type: ignore
 
-
-T = TypeVar("T")
 
 Argot = Annotated[T, useArgot()]
 """暗语内容"""

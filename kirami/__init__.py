@@ -26,14 +26,13 @@
 
 from kirami import patch  # isort:skip  # noqa: F401
 
+import importlib
 from pathlib import Path
 from typing import Any, ClassVar
 
 import nonebot
-from fastapi import FastAPI
-from nonebot.adapters.onebot.v11 import Adapter as OneBotAdapter
-from nonebot.adapters.onebot.v11 import Bot
-from nonebot.drivers.fastapi import Driver
+from nonebot.adapters import Bot
+from nonebot.drivers import Driver, ReverseDriver
 from nonebot.plugin.manager import PluginManager, _managers
 from nonebot.plugin.plugin import Plugin
 from nonebot.utils import path_to_module_name
@@ -57,7 +56,7 @@ def get_driver() -> Driver:
     return KiramiBot.driver
 
 
-def get_app() -> FastAPI:
+def get_app() -> Any:
     """获取全局`ReverseDriver`对应的 Server App 对象。
 
     ### 异常
@@ -65,10 +64,12 @@ def get_app() -> FastAPI:
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
     driver = get_driver()
+    if not isinstance(driver, ReverseDriver):
+        raise TypeError("app object is only available for reverse driver")
     return driver.server_app
 
 
-def get_asgi() -> FastAPI:
+def get_asgi() -> Any:
     """获取全局`ReverseDriver`对应 [ASGI](https://asgi.readthedocs.io/) 对象。
 
     ### 异常
@@ -76,6 +77,8 @@ def get_asgi() -> FastAPI:
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
     driver = get_driver()
+    if not isinstance(driver, ReverseDriver):
+        raise TypeError("asgi object is only available for reverse driver")
     return driver.asgi
 
 
@@ -130,7 +133,6 @@ def get_bot_ids() -> list[str]:
 
 class KiramiBot:
     driver: ClassVar[Driver]
-    asgi: ClassVar[FastAPI]
 
     def __init__(self) -> None:
         self.show_logo()
@@ -139,11 +141,7 @@ class KiramiBot:
             self.print_environment()
             console.rule()
 
-        nonebot.init(**_mixin_config(bot_config.dict()))
-
-        self.__class__.driver = nonebot.get_driver()  # type: ignore
-        self.__class__.driver.register_adapter(OneBotAdapter)
-        self.__class__.asgi = nonebot.get_asgi()
+        self.init_nonebot(_mixin_config(bot_config.dict()))
 
         logger.success("🌟 KiramiBot is initializing...")
         logger.opt(colors=True).debug(
@@ -163,6 +161,20 @@ class KiramiBot:
     def run(self, *args, **kwargs) -> None:
         """启动 KiramiBot"""
         self.driver.run(*args, **kwargs)
+
+    def init_nonebot(self, config: dict[str, Any]) -> None:
+        """初始化 NoneNot"""
+        nonebot.init(**config)
+
+        self.__class__.driver = nonebot.get_driver()
+        self.load_adapters(config["adapters"])
+
+    def load_adapters(self, adapters: set[str]) -> None:
+        """加载适配器"""
+        adapters = {adapter.replace("~", "nonebot.adapters.") for adapter in adapters}
+        for adapter in adapters:
+            module = importlib.import_module(adapter)
+            self.driver.register_adapter(getattr(module, "Adapter"))
 
     def load_plugins(self) -> None:
         """加载插件"""

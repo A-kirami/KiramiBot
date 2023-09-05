@@ -42,7 +42,8 @@ from kirami.config import bot_config, kirami_config, plugin_config
 from kirami.log import Columns, Panel, Text, console
 from kirami.log import logger as logger
 from kirami.server import Server
-from kirami.version import __metadata__, __version__
+from kirami.version import __metadata__ as __metadata__
+from kirami.version import __version__ as __version__
 
 A = TypeVar("A", bound=Adapter)
 

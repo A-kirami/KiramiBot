@@ -28,10 +28,10 @@ from kirami import patch  # isort:skip  # noqa: F401
 
 import importlib
 from pathlib import Path
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Literal, TypeVar, overload
 
 import nonebot
-from nonebot.adapters import Bot
+from nonebot.adapters import Adapter, Bot
 from nonebot.drivers import Driver, ReverseDriver
 from nonebot.plugin.manager import PluginManager, _managers
 from nonebot.plugin.plugin import Plugin
@@ -43,6 +43,8 @@ from kirami.log import Columns, Panel, Text, console
 from kirami.log import logger as logger
 from kirami.server import Server
 from kirami.version import __metadata__, __version__
+
+A = TypeVar("A", bound=Adapter)
 
 
 def get_driver() -> Driver:
@@ -56,11 +58,63 @@ def get_driver() -> Driver:
     return KiramiBot.driver
 
 
+@overload
+def get_adapter(name: str) -> Adapter:
+    """
+    ### 参数
+        name: 适配器名称
+
+    ### 返回
+        指定名称的 `nonebot.adapters.Adapter` 对象
+    """
+
+
+@overload
+def get_adapter(name: type[A]) -> A:
+    """
+    ### 参数
+        name: 适配器类型
+
+    ### 返回
+        指定类型的 `nonebot.adapters.Adapter` 对象
+    """
+
+
+def get_adapter(name: str | type[Adapter]) -> Adapter:
+    """获取已注册的 `nonebot.adapters.Adapter` 实例。
+
+    ### 异常
+        ValueError: 指定的 `nonebot.adapters.Adapter` 未注册
+
+        ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化
+            （`kirami.KiramiBot` 尚未实例化）
+    """
+    adapters = get_adapters()
+    target = name if isinstance(name, str) else name.get_name()
+    if target not in adapters:
+        raise ValueError(f"Adapter {target} not registered.")
+    return adapters[target]
+
+
+def get_adapters() -> dict[str, Adapter]:
+    """获取所有已注册的 `nonebot.adapters.Adapter` 实例。
+
+    ### 返回
+        所有 `nonebot.adapters.Adapter` 实例字典
+
+    ### 异常
+        ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化
+            （`kirami.KiramiBot` 尚未实例化）
+    """
+    return get_driver()._adapters.copy()
+
+
 def get_app() -> Any:
     """获取全局`ReverseDriver`对应的 Server App 对象。
 
     ### 异常
         AssertionError: 全局 Driver 对象不是 `nonebot.drivers.ReverseDriver` 类型
+
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
     driver = get_driver()
@@ -74,6 +128,7 @@ def get_asgi() -> Any:
 
     ### 异常
         AssertionError: 全局 Driver 对象不是 `nonebot.drivers.ReverseDriver` 类型
+
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
     driver = get_driver()
@@ -82,8 +137,20 @@ def get_asgi() -> Any:
     return driver.asgi
 
 
-def get_bot(self_id: str | None = None) -> Bot:
-    """获取一个连接到 KiramiBot 的`Bot` 对象。
+@overload
+def get_bot(self_id: str | None = None, raise_error: Literal[True] = True) -> Bot:
+    ...
+
+
+@overload
+def get_bot(
+    self_id: str | None = None, raise_error: Literal[False] = False
+) -> Bot | None:
+    ...
+
+
+def get_bot(self_id: str | None = None, raise_error: bool = True) -> Bot | None:
+    """获取一个连接到 KiramiBot 的 `Bot` 对象。
 
     当提供 `self_id` 时，此函数是 `get_bots()[self_id]` 的简写；
     当不提供时，返回一个 `nonebot.adapters.Bot`。
@@ -91,19 +158,25 @@ def get_bot(self_id: str | None = None) -> Bot:
     ### 参数
         self_id: 用来识别 `nonebot.adapters.Bot` 的 `nonebot.adapters.Bot.self_id` 属性
 
+        raise_error: 当找不到对应 `self_id` 的 `nonebot.adapters.Bot` 时是否抛出异常
+
     ### 异常
-        KeyError: 对应 self_id 的 Bot 不存在
-        ValueError: 没有传入 self_id 且没有 Bot 可用
+        KeyError: 对应 `self_id` 的 `Bot` 不存在
+
+        ValueError: 没有传入 `self_id` 且没有 `Bot` 可用
+
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
     bots = get_bots()
-    if self_id:
-        return bots[self_id]
+    if self_id is not None:
+        return bots[self_id] if raise_error else bots.get(self_id)
 
-    try:
-        return next(iter(bots.values()))
-    except StopIteration as e:
-        raise ValueError("There are no bots to get.") from e
+    for bot in bots.values():
+        return bot
+
+    if raise_error:
+        raise ValueError("There are no bots to get.")
+    return None
 
 
 def get_bots() -> dict[str, Bot]:
@@ -115,20 +188,7 @@ def get_bots() -> dict[str, Bot]:
     ### 异常
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
-    driver = get_driver()
-    return driver.bots  # type: ignore
-
-
-def get_bot_ids() -> list[str]:
-    """获取所有连接到 KiramiBot 的机器人的 self_id。
-
-    ### 返回
-        一个包含所有连接到 KiramiBot 的机器人的 self_id 的列表
-
-    ### 异常
-        ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
-    """
-    return list(get_bots().keys())
+    return get_driver().bots
 
 
 class KiramiBot:

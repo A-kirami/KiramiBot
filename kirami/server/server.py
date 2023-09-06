@@ -38,9 +38,10 @@ class Server:
 
             cls._routers.clear()
 
-        if getattr(bot_config, "fastapi_docs_url", None):
+        if bot_config.debug:
+            config = nonebot.get_driver().config
             logger.debug(
-                f"API Docs Url is http://{bot_config.host}:{bot_config.port}{bot_config.fastapi_docs_url}"
+                f"API Docs Url is {BASE_URL.with_path(config.fastapi_docs_url)}"
             )
 
     @classmethod

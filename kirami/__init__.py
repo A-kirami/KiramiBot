@@ -316,9 +316,12 @@ class KiramiBot:
 
 
 def _mixin_config(config: dict[str, Any]) -> dict[str, Any]:
-    config["fastapi_openapi_url"] = (
-        config.get("fastapi_openapi_url") if config["debug"] else None
-    )
+    if config["debug"]:
+        config |= {
+            "fastapi_openapi_url": config.get("fastapi_openapi_url", "/openapi.json"),
+            "fastapi_docs_url": config.get("fastapi_docs_url", "/docs"),
+            "fastapi_redoc_url": config.get("fastapi_redoc_url", "/redoc"),
+        }
     config["fastapi_extra"] = {
         "title": __metadata__.name,
         "version": __metadata__.version,

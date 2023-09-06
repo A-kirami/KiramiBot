@@ -19,6 +19,13 @@ class WebView:
     data: ClassVar[dict[str, Any]] = {}
 
     def __init__(self, path: str, mount: str | Path) -> None:
+        """创建网页视图。
+
+        ### 参数
+            path: 视图路径
+
+            mount: 挂载的视图文件夹路径。如果是相对路径，则相对于当前目录
+        """
         if not path or not path.startswith("/"):
             raise ValueError("Routed paths must start with '/'")
 
@@ -31,7 +38,16 @@ class WebView:
         )
 
     def render(self, path: str, **kwargs) -> URL:
-        """渲染视图"""
+        """渲染视图。
+
+        ### 参数
+            path: 视图路径
+
+            **kwargs: 传递给视图的数据
+
+        ### 返回
+            带有数据的视图链接
+        """
         data_id = self.generate_id()
         self.data[data_id] = kwargs
         data_url = self.get_data_url(data_id)
@@ -39,14 +55,22 @@ class WebView:
         return view_url.with_query(data_url=str(data_url))
 
     def get_view_url(self, path: str) -> URL:
-        """获取视图链接"""
+        """获取视图链接。
+
+        ### 参数
+            path: 视图路径
+        """
         if not path or not path.startswith("/"):
             raise ValueError("Routed paths must start with '/'")
         return BASE_URL.with_path(self.route + path)
 
     @classmethod
     def get_data_url(cls, data_id: str) -> URL:
-        """获取数据链接"""
+        """获取数据链接。
+
+        ### 参数
+            data_id: 数据标识符
+        """
         return BASE_URL / "viewdata" / data_id
 
     @staticmethod

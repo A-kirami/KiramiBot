@@ -15,18 +15,23 @@ if TYPE_CHECKING:
 
 
 class WebView:
+    base: ClassVar[str] = "/webview"
     data: ClassVar[dict[str, Any]] = {}
 
     def __init__(self, path: str, mount: str | Path) -> None:
-        self.route = path
-        self.name = path.removeprefix("/")
+        if not path or not path.startswith("/"):
+            raise ValueError("Routed paths must start with '/'")
+
+        self.route = self.base + path
         app: "FastAPI" = Server.get_app()
         app.mount(
-            path, StaticFiles(directory=get_path(mount, depth=1), html=True), self.name
+            self.route,
+            StaticFiles(directory=get_path(mount, depth=1), html=True),
+            path.removeprefix("/"),
         )
 
     def render(self, path: str, **kwargs) -> URL:
-        """渲染"""
+        """渲染视图"""
         data_id = self.generate_id()
         self.data[data_id] = kwargs
         data_url = self.get_data_url(data_id)
@@ -34,12 +39,14 @@ class WebView:
         return view_url.with_query(data_url=str(data_url))
 
     def get_view_url(self, path: str) -> URL:
-        """获取 view url"""
-        return BASE_URL / self.name / path.removeprefix("/")
+        """获取视图链接"""
+        if not path or not path.startswith("/"):
+            raise ValueError("Routed paths must start with '/'")
+        return BASE_URL.with_path(self.route + path)
 
     @classmethod
     def get_data_url(cls, data_id: str) -> URL:
-        """获取 data url"""
+        """获取数据链接"""
         return BASE_URL / "viewdata" / data_id
 
     @staticmethod

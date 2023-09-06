@@ -21,4 +21,5 @@ from .request import Request as Request
 from .resource import Resource as Resource
 from .scheduler import scheduler as scheduler
 from .utils import *  # noqa: F403
+from .webview import WebView as WebView
 from .webwright import WebWright as WebWright

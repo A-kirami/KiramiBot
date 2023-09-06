@@ -2,14 +2,17 @@
 
 import inspect
 from enum import Enum
-from typing import ClassVar
+from typing import Any, ClassVar
 
 import nonebot
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter
 from fastapi.middleware.cors import CORSMiddleware
+from yarl import URL
 
 from kirami.config import bot_config, server_config
 from kirami.log import logger
+
+BASE_URL = URL(f"http://{bot_config.host}:{bot_config.port}")
 
 
 class Server:
@@ -41,7 +44,7 @@ class Server:
             )
 
     @classmethod
-    def get_app(cls) -> FastAPI:
+    def get_app(cls) -> Any:
         """获取全局 Server App 对象"""
         return nonebot.get_app()
 

@@ -39,7 +39,6 @@ dependencies = [
     "httpx[http2]>=0.24.1",
     "Jinja2>=3.1.2",
     "tenacity>=8.2.2",
-    "yagmail>=0.15.293",
     "filetype>=1.2.0",
     "markdown-it-py[linkify,plugins]>=3.0.0",
     "mdit-py-emoji>=0.1.1",

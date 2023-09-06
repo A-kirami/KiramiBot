@@ -2,6 +2,7 @@ import secrets
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar
 
+from fastapi import HTTPException
 from fastapi.staticfiles import StaticFiles
 from yarl import URL
 
@@ -53,4 +54,6 @@ app = Server.get_router("/viewdata", tags=["webview"])
 @app.get("/{data_id}")
 async def get_data(data_id: str) -> dict[str, Any]:
     """获取视图数据"""
-    return WebView.data.pop(data_id, {})
+    if data := WebView.data.pop(data_id, None):
+        return data
+    raise HTTPException(status_code=404, detail="Data not found")

@@ -149,7 +149,7 @@ class BotConfig(BaseConfig):
     Bot 主要配置。
     """
 
-    driver: str = "nonebot.drivers.fastapi"
+    driver: str = "~fastapi"
     """KiramiBot 运行所使用的 `Driver`"""
 
     adapters: set[str] = {"~onebot.v11"}

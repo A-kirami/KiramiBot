@@ -261,15 +261,14 @@ class KiramiBot:
 
     def loading_state(self, plugins: set[Plugin]) -> None:
         """打印插件加载状态"""
-        logger.opt(colors=True).info(
-            f"🌟 [magenta]Total {len(nonebot.get_loaded_plugins())} plugin are successfully loaded.[/]"
-        )
+        if loaded_plugins := nonebot.get_loaded_plugins():
+            logger.opt(colors=True).info(
+                f"🌟 [magenta]Total {len(loaded_plugins)} plugin are successfully loaded.[/]"
+            )
 
-        failed_plugins = plugins - nonebot.get_loaded_plugins()
-
-        if failed_total := len(failed_plugins):
+        if failed_plugins := plugins - loaded_plugins:
             logger.opt(colors=True).error(
-                f"🌠 [magenta]Total {failed_total} plugin are failed loaded.[/]: {', '.join(plugin.name for plugin in failed_plugins)}"
+                f"🌠 [magenta]Total {len(failed_plugins)} plugin are failed loaded.[/]: {', '.join(plugin.name for plugin in failed_plugins)}"
             )
 
     def show_logo(self) -> None:

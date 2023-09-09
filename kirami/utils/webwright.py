@@ -50,6 +50,7 @@ class WebWright:
         except Error as e:
             logger.opt(exception=e).error(f"{bot_config.browser} 浏览器未安装，正在尝试自动安装")
             await install_browser()
+            await cls.launch(browser, *args, **kwargs)
 
     @classmethod
     async def stop(cls) -> None:

@@ -42,20 +42,13 @@ class Renderer:
     )
 
     @classmethod
-    def _get_string(cls, fs: str | Path) -> str:
-        file = Path(fs) if isinstance(fs, str) else fs
-        if file.is_file() or isinstance(fs, Path):
-            return file.read_text(encoding="utf-8")
-        return fs
-
-    @classmethod
     async def template(
         cls, tpl: str | Path, *, env: Environment | None = None, **kwargs
     ) -> str:
         """将 jinja2 模板渲染为 html。
 
         ### 参数
-            tpl: 模板文件路径或字符串
+            tpl: 模板字符串或文件路径
 
             env: jinja2 环境，默认为类属性 env
 
@@ -64,9 +57,10 @@ class Renderer:
         ### 返回
             html 字符串
         """
-        string = cls._get_string(tpl)
+        if isinstance(tpl, Path):
+            tpl = tpl.read_text(encoding="utf-8")
         env = env or cls.env
-        template = env.from_string(string)
+        template = env.from_string(tpl)
         return await template.render_async(**kwargs)
 
     @classmethod
@@ -82,7 +76,7 @@ class Renderer:
         """将 markdown 渲染为 html。
 
         ### 参数
-            md: markdown 文件路径或字符串
+            md: markdown 字符串或文件路径
 
             theme: 主题，可选值为 "light" 或 "dark"，默认为 "light"
 
@@ -97,11 +91,12 @@ class Renderer:
         ### 返回
             html 字符串
         """
-        string = cls._get_string(md)
+        if isinstance(md, Path):
+            md = md.read_text(encoding="utf-8")
         env = {}
         if highlight == "auto":
             env["theme"] = "xcode" if theme == "light" else "lightbulb"
-        html = cls.md.render(string, env=env)
+        html = cls.md.render(md, env=env)
         if only_md:
             return await cls.template(html, **kwargs)
         base_path = Path(__file__).parent / "template"

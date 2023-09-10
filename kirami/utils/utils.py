@@ -113,16 +113,6 @@ def new_dir(path: str | Path, root: str | Path = BOT_DIR) -> Path:
     return dir_.resolve()
 
 
-def is_path(fs: str | Path) -> bool:
-    """判断是否是一个文件路径。
-
-    ### 参数
-        fs: 文件路径
-    """
-    file = Path(fs) if isinstance(fs, str) else fs
-    return file.is_file() or isinstance(fs, Path)
-
-
 def str_of_size(size: int) -> str:
     """将字节大小转换为带单位的字符串。
 
@@ -210,7 +200,7 @@ async def tpl2img(
     """将 jinja2 模板转换为图片。
 
     ### 参数
-        tpl: 模板文件路径或字符串
+        tpl: 模板字符串或文件路径
 
         data: 模板渲染所需的数据
 
@@ -226,7 +216,7 @@ async def tpl2img(
         图片的二进制数据
     """
     html = await Renderer.template(tpl, **(data or {}))
-    if not base_path and is_path(tpl):
+    if not base_path and isinstance(tpl, Path):
         base_path = Path(tpl).parent
     return await html2pic(
         html, base_path, width=width, device_scale_factor=device_scale_factor, **kwargs
@@ -247,7 +237,7 @@ async def md2img(
     """将 markdown 转换为图片。
 
     ### 参数
-        md: markdown 文件路径或字符串
+        md: markdown 字符串或文件路径
 
         theme: 主题，可选值为 "light" 或 "dark"，默认为 "light"
 
@@ -267,7 +257,7 @@ async def md2img(
         图片的二进制数据
     """
     html = await Renderer.markdown(md, theme, highlight, extra)
-    if not base_path and is_path(md):
+    if not base_path and isinstance(md, Path):
         base_path = Path(md).parent
     return await html2pic(
         html, base_path, width=width, device_scale_factor=device_scale_factor, **kwargs

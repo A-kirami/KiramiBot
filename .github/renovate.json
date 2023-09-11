@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "labels": [
     "dependencies"
@@ -11,7 +11,9 @@
   "commitMessagePrefix": "⬆️",
   "commitMessageTopic": "dependency `{{depName}}`",
   "vulnerabilityAlerts": {
-    "addLabels": ["security"],
+    "addLabels": [
+      "security"
+    ],
     "commitMessagePrefix": "🔒️",
     "assigneesFromCodeOwners": true
   },
@@ -27,7 +29,9 @@
     },
     {
       "groupName": "nonebot dependencies",
-      "matchPackagePrefixes": ["nonebot"]
+      "matchPackagePrefixes": [
+        "nonebot"
+      ]
     }
   ]
 }

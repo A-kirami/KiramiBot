@@ -6,6 +6,7 @@
   "labels": [
     "dependencies"
   ],
+  "configMigration": true,
   "dependencyDashboard": false,
   "commitMessagePrefix": "⬆️",
   "commitMessageTopic": "dependency `{{depName}}`",
@@ -14,6 +15,7 @@
     "commitMessagePrefix": "🔒️",
     "assigneesFromCodeOwners": true
   },
+  "rangeStrategy": "bump",
   "packageRules": [
     {
       "groupName": "dev dependencies",

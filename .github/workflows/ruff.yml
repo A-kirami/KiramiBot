@@ -6,7 +6,8 @@ on:
       - main
   pull_request_target:
     paths:
-      - "kirami/**"
+      - kirami/**
+      - pyproject.toml
 
 jobs:
   ruff:

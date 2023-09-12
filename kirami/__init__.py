@@ -32,7 +32,7 @@ from typing import Any, ClassVar, Literal, TypeVar, overload
 
 import nonebot
 from nonebot.adapters import Adapter, Bot
-from nonebot.drivers import Driver, ReverseDriver
+from nonebot.drivers import ASGIMixin, Driver
 from nonebot.plugin.manager import PluginManager, _managers
 from nonebot.plugin.plugin import Plugin
 from nonebot.utils import path_to_module_name
@@ -119,8 +119,8 @@ def get_app() -> Any:
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
     driver = get_driver()
-    if not isinstance(driver, ReverseDriver):
-        raise TypeError("app object is only available for reverse driver")
+    if not isinstance(driver, ASGIMixin):
+        raise TypeError("app object is only available for asgi driver")
     return driver.server_app
 
 
@@ -133,8 +133,8 @@ def get_asgi() -> Any:
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
     driver = get_driver()
-    if not isinstance(driver, ReverseDriver):
-        raise TypeError("asgi object is only available for reverse driver")
+    if not isinstance(driver, ASGIMixin):
+        raise TypeError("asgi object is only available for asgi driver")
     return driver.asgi
 
 

@@ -134,7 +134,7 @@ def get_asgi() -> Any:
     """
     driver = get_driver()
     if not isinstance(driver, ASGIMixin):
-        raise TypeError("asgi object is only available for reverse driver")
+        raise TypeError("asgi object is only available for asgi driver")
     return driver.asgi
 
 

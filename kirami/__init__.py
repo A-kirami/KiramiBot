@@ -111,10 +111,10 @@ def get_adapters() -> dict[str, Adapter]:
 
 
 def get_app() -> Any:
-    """获取全局`ReverseDriver`对应的 Server App 对象。
+    """获取全局 `nonebot.drivers.ASGIMixin` 对应的 Server App 对象。
 
     ### 异常
-        AssertionError: 全局 Driver 对象不是 `nonebot.drivers.ReverseDriver` 类型
+        AssertionError: 全局 Driver 对象不是 `nonebot.drivers.ASGIMixin` 类型
 
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """
@@ -125,10 +125,10 @@ def get_app() -> Any:
 
 
 def get_asgi() -> Any:
-    """获取全局`ReverseDriver`对应 [ASGI](https://asgi.readthedocs.io/) 对象。
+    """获取全局 `nonebot.drivers.ASGIMixin` 对应的 [ASGI](https://asgi.readthedocs.io/) 对象。
 
     ### 异常
-        AssertionError: 全局 Driver 对象不是 `nonebot.drivers.ReverseDriver` 类型
+        AssertionError: 全局 Driver 对象不是 `nonebot.drivers.ASGIMixin` 类型
 
         ValueError: 全局 `nonebot.drivers.Driver` 对象尚未初始化（`kirami.KiramiBot` 尚未实例化）
     """

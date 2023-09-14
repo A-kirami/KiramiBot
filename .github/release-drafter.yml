@@ -4,7 +4,7 @@ change-template: "- $TITLE ([#$NUMBER]($URL)) @$AUTHOR"
 change-title-escapes: '\<&'
 exclude-labels:
   - "dependencies"
-  - "skip-changelog"
+  - "skip changelog"
 categories:
   - title: "💥 破坏性变更"
     labels:

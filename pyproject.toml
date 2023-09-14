@@ -116,12 +116,7 @@ suppress-dummy-args = true
 
 [tool.pyright]
 typeCheckingMode = "basic"
-pythonVersion = "3.10"
 pythonPlatform = "All"
-executionEnvironments = [
-    { root = "./" },
-]
-reportShadowedImports = false
 
 [tool.pdm.scripts]
 format = "black --check --diff --color ."

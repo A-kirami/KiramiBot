@@ -72,8 +72,8 @@ KiramiBot 是一个功能强大的机器人框架，它可以帮助你创建自�
 
 ## 🚀 开始
 
-> [!WARNING]
-> 需要 Python 3.10 或更高版本，同时安装了 mongoDB 数据库。
+> [!NOTE]
+> 需要 Python 3.10 或更高版本，以及 mongoDB 数据库。
 
 ### 安装 Kirami CLI
 

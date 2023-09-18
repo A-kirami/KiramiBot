@@ -19,14 +19,14 @@ scheduler.configure(apscheduler_config)
 async def start_scheduler() -> None:
     if not scheduler.running:
         scheduler.start()
-        logger.opt(colors=True).info("<y>Scheduler Started</y>")
+        logger.opt(colors=True).success("<y>Scheduler Started</y>")
 
 
 @on_shutdown
 async def shutdown_scheduler() -> None:
     if scheduler.running:
         scheduler.shutdown()
-        logger.opt(colors=True).info("<y>Scheduler Shutdown</y>")
+        logger.opt(colors=True).success("<y>Scheduler Shutdown</y>")
 
 
 aps_logger = logging.getLogger("apscheduler")

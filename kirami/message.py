@@ -1,5 +1,6 @@
 """本模块定义了消息构造器，可用于快速创建混合消息"""
 
+import contextlib
 from collections.abc import Callable
 from io import BytesIO
 from pathlib import Path
@@ -13,13 +14,28 @@ from nonebot.adapters.onebot.v11 import MessageSegment as BaseMessageSegment
 from typing_extensions import Self
 
 from kirami.exception import ReadFileError
-from kirami.utils import is_file_path
 
 
 @runtime_checkable
 class MessageResource(Protocol):
+    path: Path
+
     def message(self, *args, **kwargs) -> "MessageSegment":
         ...
+
+
+def file_handle(
+    file: str | bytes | BytesIO | Path | MessageResource,
+) -> Path | bytes | BytesIO | str:
+    """处理文件路径"""
+    if isinstance(file, str) and "://" not in file:
+        with contextlib.suppress(OSError):
+            if Path(file).is_file():
+                return Path(file)
+            raise ReadFileError(f"不是一个有效的文件: {file}")
+    if isinstance(file, MessageResource):
+        file = file.path
+    return file
 
 
 class MessageSegment(BaseMessageSegment):
@@ -88,12 +104,7 @@ class MessageSegment(BaseMessageSegment):
             file = Imager(file)
         if isinstance(file, Imager):
             file = f"base64://{file.to_base64()}"
-        if isinstance(file, str) and "://" not in file:
-            file = Path(file)
-            if not is_file_path(file):
-                raise ReadFileError(f"不是一个有效的文件: {file}")
-        if isinstance(file, MessageResource):
-            return file.message(*args, **kwargs)
+        file = file_handle(file)
         return super().image(file, *args, **kwargs)
 
     @classmethod
@@ -119,12 +130,7 @@ class MessageSegment(BaseMessageSegment):
         ### 异常
             ReadFileError: 读取文件错误，不是一个有效的文件
         """
-        if isinstance(file, str) and "://" not in file:
-            file = Path(file)
-            if not is_file_path(file):
-                raise ReadFileError(f"不是一个有效的文件: {file}")
-        if isinstance(file, MessageResource):
-            return file.message(*args, **kwargs)
+        file = file_handle(file)
         return super().record(file, *args, **kwargs)
 
     @classmethod
@@ -148,12 +154,7 @@ class MessageSegment(BaseMessageSegment):
         ### 异常
             ReadFileError: 读取文件错误，不是一个有效的文件
         """
-        if isinstance(file, str) and "://" not in file:
-            file = Path(file)
-            if not is_file_path(file):
-                raise ReadFileError(f"不是一个有效的文件: {file}")
-        if isinstance(file, MessageResource):
-            return file.message(*args, **kwargs)
+        file = file_handle(file)
         return super().video(file, *args, **kwargs)
 
     @classmethod

@@ -5,6 +5,7 @@ from pymongo.errors import ServerSelectionTimeoutError
 
 from kirami.exception import DatabaseError
 from kirami.hook import on_shutdown, on_startup
+from kirami.log import logger
 
 from .models.argot import Argot as Argot
 from .models.group import Group as Group
@@ -22,6 +23,7 @@ async def connect_database() -> None:
             tz_aware=True,
             serverSelectionTimeoutMS=1000 * 10,
         )
+        logger.success("已连接到 MongoDB 数据库")
     except ServerSelectionTimeoutError as e:
         raise DatabaseError("无法连接到数据库, 请确保 MangoDB 已启动且配置正确") from e
 
@@ -29,3 +31,4 @@ async def connect_database() -> None:
 @on_shutdown
 def disconnect_database() -> None:
     Mango.disconnect()
+    logger.success("已断开与 MongoDB 数据库的连接")

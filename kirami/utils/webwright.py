@@ -47,6 +47,7 @@ class WebWright:
                     cls._playwright, browser or bot_config.browser
                 )
                 cls._browser = await browser_type.launch(*args, **kwargs)
+            logger.success(f"{bot_config.browser} 浏览器启动成功")
         except Error as e:
             logger.opt(exception=e).error(f"{bot_config.browser} 浏览器未安装，正在尝试自动安装")
             await install_browser()
@@ -59,6 +60,7 @@ class WebWright:
             await cls._browser.close()
         if cls._playwright:
             await cls._playwright.stop()
+        logger.success(f"{bot_config.browser} 浏览器已关闭")
 
     @classmethod
     async def get_browser(cls) -> Browser:

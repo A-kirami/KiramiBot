@@ -13,6 +13,7 @@ from nonebot.adapters.onebot.v11 import MessageSegment as BaseMessageSegment
 from typing_extensions import Self
 
 from kirami.exception import ReadFileError
+from kirami.utils import is_file_path
 
 
 @runtime_checkable
@@ -89,7 +90,7 @@ class MessageSegment(BaseMessageSegment):
             file = f"base64://{file.to_base64()}"
         if isinstance(file, str) and "://" not in file:
             file = Path(file)
-            if not file.is_file():
+            if not is_file_path(file):
                 raise ReadFileError(f"不是一个有效的文件: {file}")
         if isinstance(file, MessageResource):
             return file.message(*args, **kwargs)
@@ -120,7 +121,7 @@ class MessageSegment(BaseMessageSegment):
         """
         if isinstance(file, str) and "://" not in file:
             file = Path(file)
-            if not file.is_file():
+            if not is_file_path(file):
                 raise ReadFileError(f"不是一个有效的文件: {file}")
         if isinstance(file, MessageResource):
             return file.message(*args, **kwargs)
@@ -149,7 +150,7 @@ class MessageSegment(BaseMessageSegment):
         """
         if isinstance(file, str) and "://" not in file:
             file = Path(file)
-            if not file.is_file():
+            if not is_file_path(file):
                 raise ReadFileError(f"不是一个有效的文件: {file}")
         if isinstance(file, MessageResource):
             return file.message(*args, **kwargs)

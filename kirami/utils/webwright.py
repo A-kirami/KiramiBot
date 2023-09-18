@@ -58,9 +58,9 @@ class WebWright:
         """关闭浏览器"""
         if cls._browser:
             await cls._browser.close()
+            logger.success(f"{bot_config.browser} 浏览器已关闭")
         if cls._playwright:
             await cls._playwright.stop()
-        logger.success(f"{bot_config.browser} 浏览器已关闭")
 
     @classmethod
     async def get_browser(cls) -> Browser:

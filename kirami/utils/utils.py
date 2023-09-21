@@ -113,6 +113,18 @@ def new_dir(path: str | Path, root: str | Path = BOT_DIR) -> Path:
     return dir_.resolve()
 
 
+def is_file_path(path: str | Path) -> bool:
+    """判断是否是一个有效的文件路径。
+
+    ### 参数
+        path: 文件路径
+    """
+    try:
+        return Path(path).is_file()
+    except OSError:
+        return False
+
+
 def str_of_size(size: int) -> str:
     """将字节大小转换为带单位的字符串。
 

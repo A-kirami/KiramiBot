@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://kiramibot.dev/">
+    <img src="https://raw.githubusercontent.com/A-kirami/KiramiDocs/main/static/img/logo.svg" width="180" height="180" alt="kiramibot logo">
+  </a>
+</p>
+
 <div align="center">
 
 # KiramiBot
@@ -117,3 +123,4 @@ kirami run
 ## 📄 许可证
 
 Code: AGPL-3.0 - 2023 - Akirami
+Logo: CC-BY-NC-ND, Designs by Akirami

@@ -1,19 +1,21 @@
-<p align="center">
-  <a href="https://kiramibot.dev/">
-    <img src="https://raw.githubusercontent.com/A-kirami/KiramiDocs/main/static/img/logo.svg" width="180" height="180" alt="kiramibot logo">
-  </a>
-</p>
-
 <div align="center">
-
-# KiramiBot
-
-✨ 简明轻快的聊天机器人应用 ✨
-
+  <a href="https://kiramibot.dev/">
+    <p>
+      <img src="https://raw.githubusercontent.com/A-kirami/KiramiBot/main/assets/logo.svg" width="180" height="180" alt="KiramiBot Logo">
+    </p>
+    <p>
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/A-kirami/KiramiBot/main/assets/logo-text-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/A-kirami/KiramiBot/main/assets/logo-text-light.svg">
+        <img src="assets/logo-text-light.svg" alt="KiramiBot Text" width="200" />
+      </picture>
+    </p>
+  </a>
+  <p>✨ 简明轻快的聊天机器人应用 ✨</p>
 </div>
 
 <p align="center">
-  <a href="https://raw.githubusercontent.com/A-kirami/KiramiBot/master/LICENSE">
+  <a href="https://raw.githubusercontent.com/A-kirami/KiramiBot/main/LICENSE">
     <img src="https://img.shields.io/github/license/A-kirami/KiramiBot" alt="license">
   </a>
   <a href="https://pypi.python.org/pypi/kiramibot">

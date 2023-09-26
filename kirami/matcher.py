@@ -151,8 +151,14 @@ class MatcherCase:
             return func
         return self.matcher()
 
-    def __getattr__(self, name: str) -> Any:
+    def __getattr__(self, name: str, /) -> Any:
         return getattr(self.matcher, name)
+
+    def __setattr__(self, name: str, value: Any, /) -> None:
+        if name == "matcher":
+            super().__setattr__(name, value)
+        else:
+            setattr(self.matcher, name, value)
 
 
 def on(

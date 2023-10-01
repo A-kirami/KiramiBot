@@ -20,7 +20,12 @@ from PIL import Image as PILImg
 from tenacity import AsyncRetrying, RetryError, stop_after_attempt
 
 from kirami.config import BOT_DIR, RES_DIR
-from kirami.exception import FileNotExistError, FileTypeError, NetworkError, ReadFileError
+from kirami.exception import (
+    FileNotExistError,
+    FileTypeError,
+    NetworkError,
+    ReadFileError,
+)
 
 from .renderer import Renderer
 from .request import Request

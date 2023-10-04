@@ -20,7 +20,12 @@ from PIL import Image as PILImg
 from tenacity import AsyncRetrying, RetryError, stop_after_attempt
 
 from kirami.config import BOT_DIR, RES_DIR
-from kirami.exception import FileNotExistError, NetworkError, ReadFileError
+from kirami.exception import (
+    FileNotExistError,
+    FileTypeError,
+    NetworkError,
+    ReadFileError,
+)
 
 from .renderer import Renderer
 from .request import Request
@@ -66,9 +71,11 @@ def load_data(file: str | Path) -> dict[str, Any]:
         解析后的数据
 
     ### 异常
-        FileNotFoundError: 文件不存在
+        FileNotExistError: 文件不存在
 
-        ValueError: 文件格式不支持
+        FileTypeError: 文件格式不支持
+
+        ReadFileError: 文件内容为空
     """
     data_path = get_path(file, depth=1)
     if not data_path.exists():
@@ -83,7 +90,7 @@ def load_data(file: str | Path) -> dict[str, Any]:
     elif file_type == "toml":
         file_data = tomllib.loads(data)
     else:
-        raise ReadFileError(f"不支持的文件类型: {file_type}, 只能是 json、yaml 或 toml")
+        raise FileTypeError(f"不支持的文件类型: {file_type}, 只能是 json、yaml 或 toml")
 
     if file_data is None:
         raise ReadFileError(f"文件内容为空: {data_path}")

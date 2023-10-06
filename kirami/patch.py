@@ -13,7 +13,7 @@ from nonebot.dependencies.utils import check_field_type
 from nonebot.internal.params import StateParam
 from nonebot.log import logger
 from nonebot.plugin import _current_plugin_chain
-from nonebot.plugin.plugin import Plugin
+from nonebot.plugin.model import Plugin
 from nonebot.typing import T_State
 from nonebot.utils import generic_check_issubclass
 from pydantic.fields import ModelField, Required
@@ -65,7 +65,7 @@ import time
 
 from nonebot.log import logger
 from nonebot.plugin.manager import PluginManager
-from nonebot.plugin.plugin import Plugin
+from nonebot.plugin.model import Plugin
 from nonebot.utils import path_to_module_name
 
 
@@ -114,7 +114,7 @@ PluginManager.load_plugin = load_plugin
 
 # ==============================================================================
 
-from nonebot.plugin.plugin import Plugin
+from nonebot.plugin.model import Plugin
 
 
 @property
@@ -134,7 +134,7 @@ from types import ModuleType
 
 from nonebot.plugin import _current_plugin_chain, _managers, _new_plugin, _revert_plugin
 from nonebot.plugin.manager import PluginLoader
-from nonebot.plugin.plugin import PluginMetadata
+from nonebot.plugin.model import PluginMetadata
 
 from kirami.service.manager import ServiceManager, load_subplugin
 

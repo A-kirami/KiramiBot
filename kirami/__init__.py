@@ -34,7 +34,7 @@ import nonebot
 from nonebot.adapters import Adapter, Bot
 from nonebot.drivers import ASGIMixin, Driver
 from nonebot.plugin.manager import PluginManager, _managers
-from nonebot.plugin.plugin import Plugin
+from nonebot.plugin.model import Plugin
 from nonebot.utils import path_to_module_name
 
 from kirami import hook

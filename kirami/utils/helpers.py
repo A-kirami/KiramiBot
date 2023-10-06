@@ -69,6 +69,6 @@ def extract_plain_text(message: Message) -> str:
         message: 消息对象
 
     ### 返回
-        艾特用户列表
+        纯文本消息
     """
     return message.extract_plain_text().strip()

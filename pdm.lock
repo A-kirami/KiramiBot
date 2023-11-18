@@ -3,10 +3,9 @@
 
 [metadata]
 groups = ["default", "dev", "hyper", "test"]
-cross_platform = true
-static_urls = false
-lock_version = "4.3"
-content_hash = "sha256:589376da253ebe623a8646f93ad77500bed3b23a3b4545886dfe678b38f23f26"
+strategy = ["cross_platform"]
+lock_version = "4.4"
+content_hash = "sha256:885a95d291986379a8d4b876597e53f8ae29da07a05b07d14121188d9b66cbbb"
 
 [[package]]
 name = "anyio"
@@ -813,7 +812,7 @@ files = [
 
 [[package]]
 name = "nonebot-adapter-onebot"
-version = "2.3.0"
+version = "2.3.1"
 requires_python = ">=3.8,<4.0"
 summary = "OneBot(CQHTTP) adapter for nonebot2"
 dependencies = [
@@ -822,13 +821,13 @@ dependencies = [
     "typing-extensions<5.0.0,>=4.0.0",
 ]
 files = [
-    {file = "nonebot_adapter_onebot-2.3.0-py3-none-any.whl", hash = "sha256:b78fba1230766f59ecf2a103650b29e9ca499809be022e1d94b9951a42f4a491"},
-    {file = "nonebot_adapter_onebot-2.3.0.tar.gz", hash = "sha256:417946698b4d82a3227cea55573085772b911c4cb27ee5515f7306dbb14ef2e0"},
+    {file = "nonebot_adapter_onebot-2.3.1-py3-none-any.whl", hash = "sha256:c4085f1fc1a62e46c737452b9ce3d6eb374812c78a419bb4fa378f48bd8e4088"},
+    {file = "nonebot_adapter_onebot-2.3.1.tar.gz", hash = "sha256:10cec3aee454700e6d2144748bd898772db7bd95247d51d3ccd3b31919e24689"},
 ]
 
 [[package]]
 name = "nonebot2"
-version = "2.1.1"
+version = "2.1.2"
 requires_python = ">=3.8,<4.0"
 summary = "An asynchronous python bot framework."
 dependencies = [
@@ -840,24 +839,24 @@ dependencies = [
     "yarl<2.0.0,>=1.7.2",
 ]
 files = [
-    {file = "nonebot2-2.1.1-py3-none-any.whl", hash = "sha256:fe780eee116b2798e1db043b92aefa1b1f2bf1026725388a1dbbb211bbb4ef4b"},
-    {file = "nonebot2-2.1.1.tar.gz", hash = "sha256:e3937c28bca26f2f8717fedd8594e0cfc79faa2d99a3209c4a63706727d700f8"},
+    {file = "nonebot2-2.1.2-py3-none-any.whl", hash = "sha256:a4df78e4c8b81773ea70b4b68d4ac3a5027d69517661d756772f11edf3cd3b1f"},
+    {file = "nonebot2-2.1.2.tar.gz", hash = "sha256:afb3c141c67645cd038125287d0583aec2220eca998a8392e42ba87722f6659f"},
 ]
 
 [[package]]
 name = "nonebot2"
-version = "2.1.1"
+version = "2.1.2"
 extras = ["fastapi"]
 requires_python = ">=3.8,<4.0"
 summary = "An asynchronous python bot framework."
 dependencies = [
     "fastapi<1.0.0,>=0.93.0",
-    "nonebot2==2.1.1",
+    "nonebot2==2.1.2",
     "uvicorn[standard]<1.0.0,>=0.20.0",
 ]
 files = [
-    {file = "nonebot2-2.1.1-py3-none-any.whl", hash = "sha256:fe780eee116b2798e1db043b92aefa1b1f2bf1026725388a1dbbb211bbb4ef4b"},
-    {file = "nonebot2-2.1.1.tar.gz", hash = "sha256:e3937c28bca26f2f8717fedd8594e0cfc79faa2d99a3209c4a63706727d700f8"},
+    {file = "nonebot2-2.1.2-py3-none-any.whl", hash = "sha256:a4df78e4c8b81773ea70b4b68d4ac3a5027d69517661d756772f11edf3cd3b1f"},
+    {file = "nonebot2-2.1.2.tar.gz", hash = "sha256:afb3c141c67645cd038125287d0583aec2220eca998a8392e42ba87722f6659f"},
 ]
 
 [[package]]

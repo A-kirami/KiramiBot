@@ -139,15 +139,13 @@ def get_asgi() -> Any:
 
 
 @overload
-def get_bot(self_id: str | None = None, raise_error: Literal[True] = True) -> Bot:
-    ...
+def get_bot(self_id: str | None = None, raise_error: Literal[True] = True) -> Bot: ...
 
 
 @overload
 def get_bot(
     self_id: str | None = None, raise_error: Literal[False] = False
-) -> Bot | None:
-    ...
+) -> Bot | None: ...
 
 
 def get_bot(self_id: str | None = None, raise_error: bool = True) -> Bot | None:

@@ -95,23 +95,19 @@ def _sort_by_position(item: Service | Ability) -> tuple[int | float, str]:
 class ServiceManager:
     @overload
     @classmethod
-    def get_correspond(cls, item: Plugin) -> Service:
-        ...
+    def get_correspond(cls, item: Plugin) -> Service: ...
 
     @overload
     @classmethod
-    def get_correspond(cls, item: Service) -> Plugin:
-        ...
+    def get_correspond(cls, item: Service) -> Plugin: ...
 
     @overload
     @classmethod
-    def get_correspond(cls, item: type[Matcher]) -> Ability:
-        ...
+    def get_correspond(cls, item: type[Matcher]) -> Ability: ...
 
     @overload
     @classmethod
-    def get_correspond(cls, item: Ability) -> type[Matcher]:
-        ...
+    def get_correspond(cls, item: Ability) -> type[Matcher]: ...
 
     @classmethod
     def get_correspond(
@@ -174,9 +170,9 @@ class ServiceManager:
         for matcher in matchers:
             if members := inspect.getmembers(
                 matcher.module,
-                lambda x, m=matcher: x.matcher is m
-                if isinstance(x, MatcherCase)
-                else x is m,
+                lambda x, m=matcher: (
+                    x.matcher is m if isinstance(x, MatcherCase) else x is m
+                ),
             ):
                 name, _ = members[0]
             else:

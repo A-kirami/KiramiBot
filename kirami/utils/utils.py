@@ -339,8 +339,7 @@ async def get_api_data(
     retry: int = 3,
     to_json: Literal[True] = True,
     **kwargs,
-) -> Any:
-    ...
+) -> Any: ...
 
 
 @overload
@@ -351,8 +350,7 @@ async def get_api_data(
     retry: int = 3,
     to_json: Literal[False] = False,
     **kwargs,
-) -> Response:
-    ...
+) -> Response: ...
 
 
 async def get_api_data(

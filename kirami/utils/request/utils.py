@@ -8,8 +8,9 @@ from httpx._types import HeaderTypes
 
 
 def fake_user_agent(
-    browser: Literal["chrome", "opera", "firefox", "safari", "internetexplorer"]
-    | None = None,
+    browser: (
+        Literal["chrome", "opera", "firefox", "safari", "internetexplorer"] | None
+    ) = None,
 ) -> dict[str, str]:
     """获取一个随机的 User-Agent。
 

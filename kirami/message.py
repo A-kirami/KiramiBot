@@ -20,8 +20,7 @@ from kirami.exception import ReadFileError
 class MessageResource(Protocol):
     path: Path
 
-    def message(self, *args, **kwargs) -> "MessageSegment":
-        ...
+    def message(self, *args, **kwargs) -> "MessageSegment": ...
 
 
 def file_handle(

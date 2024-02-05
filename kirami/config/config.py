@@ -1,6 +1,5 @@
 """本模块定义了 KiramiBot 运行所需的配置项"""
 
-
 from collections.abc import KeysView, Mapping
 from datetime import timedelta
 from ipaddress import IPv4Address
@@ -225,8 +224,7 @@ class BotConfig(BaseConfig):
 
     if TYPE_CHECKING:
 
-        def __getattr__(self, name: str) -> Any:
-            ...
+        def __getattr__(self, name: str) -> Any: ...
 
 
 class KiramiConfig(BaseConfig):

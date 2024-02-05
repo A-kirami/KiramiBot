@@ -66,7 +66,7 @@ class Message(BaseMessage):
         ### 参数
             text: 文本内容
         """
-        ...
+
     @classmethod
     def face(cls, id_: int) -> Self:
         """表情消息。
@@ -74,7 +74,7 @@ class Message(BaseMessage):
         ### 参数
             id_: 表情 ID
         """
-        ...
+
     @classmethod
     def at(cls, user_id: int | str) -> Self:
         """@ 某人消息。
@@ -82,7 +82,7 @@ class Message(BaseMessage):
         ### 参数
             user_id: 要 @ 的用户 ID
         """
-        ...
+
     @classmethod
     def reply(cls, id_: int) -> Self:
         """回复消息。
@@ -90,7 +90,7 @@ class Message(BaseMessage):
         ### 参数
             id_: 回复的消息 ID
         """
-        ...
+
     @classmethod
     def image(
         cls,
@@ -116,7 +116,7 @@ class Message(BaseMessage):
         ### 异常
             ReadFileError: 读取文件错误，不是一个有效的文件
         """
-        ...
+
     @classmethod
     def anonymous(cls, ignore_failure: bool | None = None) -> Self:
         """匿名消息。
@@ -124,7 +124,7 @@ class Message(BaseMessage):
         ### 参数
             ignore_failure: 无法匿名时是否继续发送。默认为 None
         """
-        ...
+
     @classmethod
     def refer(cls, id_: int) -> Self:
         """合并转发引用消息。
@@ -132,7 +132,7 @@ class Message(BaseMessage):
         ### 参数
             id_: 引用的消息 ID
         """
-        ...
+
     @classmethod
     def node(cls, user_id: int | str, nickname: str, content: str | Self) -> Self:
         """合并转发节点消息。
@@ -144,4 +144,3 @@ class Message(BaseMessage):
 
             content: 节点内容
         """
-        ...

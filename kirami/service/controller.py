@@ -114,7 +114,9 @@ async def enabled_checker(
     """服务开关检查"""
     if dissbj := ability.get_disabled_subjects(*subjects):
         dissbj_str = ", ".join(repr(s) for s in dissbj)
-        raise IgnoredException(f'功能"{service.name}#{ability.name}"未启用: {dissbj_str}')
+        raise IgnoredException(
+            f'功能"{service.name}#{ability.name}"未启用: {dissbj_str}'
+        )
     if dissbj := service.get_disabled_subjects(*subjects):
         dissbj_str = ", ".join(repr(s) for s in dissbj)
         raise IgnoredException(f'服务"{service.name}"未启用: {dissbj_str}')
@@ -127,7 +129,9 @@ async def role_checker(service: D_Service, ability: D_Ability, role: UserRole) -
         return
     if role.check(service.role.user):
         return
-    raise IgnoredException(f"用户角色权限不足, 服务或功能至少需要{role.name}, 当前为{role.name}")
+    raise IgnoredException(
+        f"用户角色权限不足, 服务或功能至少需要{role.name}, 当前为{role.name}"
+    )
 
 
 @register_checker
@@ -142,7 +146,9 @@ async def policy_checker(
         return
     if service.id in allowed:
         return
-    raise IgnoredException(f"主体策略没有访问服务或功能的许可: {', '.join(repr(s) for s in subjects)}")
+    raise IgnoredException(
+        f"主体策略没有访问服务或功能的许可: {', '.join(repr(s) for s in subjects)}"
+    )
 
 
 @register_checker

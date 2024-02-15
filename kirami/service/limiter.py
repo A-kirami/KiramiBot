@@ -78,7 +78,7 @@ class Limiter(BaseModel, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_info(self, key: str) -> TypedDict:
+    def get_info(self, key: str) -> dict:
         raise NotImplementedError
 
     def get_prompt(self, key: str, **kwargs) -> str | None:

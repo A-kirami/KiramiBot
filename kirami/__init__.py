@@ -222,7 +222,7 @@ class KiramiBot:
         self.driver.run(*args, **kwargs)
 
     def init_nonebot(self, config: dict[str, Any]) -> None:
-        """初始化 NoneNot"""
+        """初始化 NoneBot"""
         nonebot.init(**config)
 
         self.__class__.driver = nonebot.get_driver()

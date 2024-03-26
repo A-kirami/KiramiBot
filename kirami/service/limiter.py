@@ -67,6 +67,9 @@ def get_scope_key(event: Event, scope: LimitScope = LimitScope.LOCAL) -> str | N
             return f"{group_id}_{user_id}" if group_id else user_id
 
 
+class LimiterInfo(TypedDict): ...
+
+
 class Limiter(BaseModel, ABC):
     scope: LimitScope = PField(default=LimitScope.LOCAL)
     """限制隔离范围"""
@@ -78,7 +81,7 @@ class Limiter(BaseModel, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_info(self, key: str) -> dict:
+    def get_info(self, key: str) -> LimiterInfo:
         raise NotImplementedError
 
     def get_prompt(self, key: str, **kwargs) -> str | None:
@@ -115,7 +118,7 @@ class PersistLimiter(Document, Limiter, ABC):
         raise NotImplementedError
 
 
-class CooldownInfo(TypedDict):
+class CooldownInfo(LimiterInfo):
     target: str
     """冷却对象"""
     duration: int | float
@@ -134,7 +137,7 @@ class Cooldown(PersistLimiter):
     )
     """冷却到期时间"""
 
-    async def start(self, key: str, duration: int | float = 0) -> None:
+    async def start(self, key: str, duration: float = 0) -> None:
         """进入冷却时间。
 
         ### 参数
@@ -181,7 +184,7 @@ class Cooldown(PersistLimiter):
             await self.save()
 
 
-class QuotaInfo(TypedDict):
+class QuotaInfo(LimiterInfo):
     target: str
     """配额对象"""
     limit: int
@@ -280,7 +283,7 @@ class Quota(PersistLimiter):
             await self.save()
 
 
-class LockInfo(TypedDict):
+class LockInfo(LimiterInfo):
     target: str
     """锁定对象"""
     max_count: int

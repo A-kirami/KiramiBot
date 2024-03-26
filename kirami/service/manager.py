@@ -95,23 +95,19 @@ def _sort_by_position(item: Service | Ability) -> tuple[int | float, str]:
 class ServiceManager:
     @overload
     @classmethod
-    def get_correspond(cls, item: Plugin) -> Service:
-        ...
+    def get_correspond(cls, item: Plugin) -> Service: ...
 
     @overload
     @classmethod
-    def get_correspond(cls, item: Service) -> Plugin:
-        ...
+    def get_correspond(cls, item: Service) -> Plugin: ...
 
     @overload
     @classmethod
-    def get_correspond(cls, item: type[Matcher]) -> Ability:
-        ...
+    def get_correspond(cls, item: type[Matcher]) -> Ability: ...
 
     @overload
     @classmethod
-    def get_correspond(cls, item: Ability) -> type[Matcher]:
-        ...
+    def get_correspond(cls, item: Ability) -> type[Matcher]: ...
 
     @classmethod
     def get_correspond(
@@ -189,7 +185,8 @@ class ServiceManager:
                     f"Ability name conflict! Duplicate with existing matcher name: {name}"
                 )
             ability = Ability(
-                id=f"{service.id}#{name}", **configs.get(name, {"name": name})  # type: ignore
+                id=f"{service.id}#{name}",
+                **configs.get(name, {"name": name}),  # type: ignore
             )
             ability.bind(matcher)
             abilities[name] = ability

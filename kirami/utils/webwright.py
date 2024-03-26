@@ -48,8 +48,8 @@ class WebWright:
                 )
                 cls._browser = await browser_type.launch(*args, **kwargs)
             logger.success(f"{bot_config.browser} 浏览器启动成功")
-        except Error as e:
-            logger.opt(exception=e).error(f"{bot_config.browser} 浏览器未安装，正在尝试自动安装")
+        except Error:
+            logger.error(f"{bot_config.browser} 浏览器未安装，正在尝试自动安装")
             await install_browser()
             await cls.launch(browser, *args, **kwargs)
 
@@ -120,9 +120,12 @@ async def install_browser() -> None:
 
     try:
         logger.debug("Install dependencies necessary to run browsers")
-        subprocess.run([playwright_cmd, "install-deps"], check=True)  # noqa: S603
+        subprocess.run(  # noqa: ASYNC101
+            [playwright_cmd, "install-deps"],  # noqa: S603
+            check=True,
+        )
     except subprocess.CalledProcessError:
-        logger.opt(exception=True).error("Playwright 依赖安装失败，请检查网络状况或尝试手动安装")
+        logger.exception("Playwright 依赖安装失败，请检查网络状况或尝试手动安装")
         return
 
     try:

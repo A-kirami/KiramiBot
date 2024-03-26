@@ -28,7 +28,7 @@ class BaseAccess(Document, ABC):
         raise NotImplementedError
 
     class Meta:
-        bson_encoders = {frozenset: list}
+        bson_encoders: ClassVar[dict] = {frozenset: list}
 
 
 class Role(BaseAccess):

@@ -367,7 +367,6 @@ def on_time(
 
     [apscheduler.triggers.cron](https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html#module-apscheduler.triggers.cron)
     """
-    ...
 
 @overload
 def on_time(
@@ -436,7 +435,6 @@ def on_time(
 
     [apscheduler.triggers.interval](https://apscheduler.readthedocs.io/en/3.x/modules/triggers/interval.html#module-apscheduler.triggers.interval)
     """
-    ...
 
 @overload
 def on_time(
@@ -482,7 +480,6 @@ def on_time(
 
     [apscheduler.triggers.date](https://apscheduler.readthedocs.io/en/3.x/modules/triggers/date.html#module-apscheduler.triggers.date)
     """
-    ...
 
 class CommandGroup(BaseCommandGroup):
     basecmd: tuple[str, ...] = ...
@@ -870,7 +867,6 @@ class MatcherGroup(BaseMatcherGroup):
 
         [apscheduler.triggers.cron](https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html#module-apscheduler.triggers.cron)
         """
-        ...
     @overload
     def on_time(
         self,
@@ -939,7 +935,6 @@ class MatcherGroup(BaseMatcherGroup):
 
         [apscheduler.triggers.interval](https://apscheduler.readthedocs.io/en/3.x/modules/triggers/interval.html#module-apscheduler.triggers.interval)
         """
-        ...
     @overload
     def on_time(
         self,
@@ -985,4 +980,3 @@ class MatcherGroup(BaseMatcherGroup):
 
         [apscheduler.triggers.date](https://apscheduler.readthedocs.io/en/3.x/modules/triggers/date.html#module-apscheduler.triggers.date)
         """
-        ...

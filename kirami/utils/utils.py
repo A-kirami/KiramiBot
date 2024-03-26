@@ -213,7 +213,7 @@ async def tpl2img(
     data: dict[str, Any] | None = None,
     base_path: str | Path | None = None,
     width: int = 480,
-    device_scale_factor: int | float = 1,
+    device_scale_factor: float = 1,
     **kwargs,
 ) -> bytes:
     """将 jinja2 模板转换为图片。
@@ -250,7 +250,7 @@ async def md2img(
     extra: str = "",
     base_path: str | Path | None = None,
     width: int = 480,
-    device_scale_factor: int | float = 1,
+    device_scale_factor: float = 1,
     **kwargs,
 ) -> bytes:
     """将 markdown 转换为图片。
@@ -292,8 +292,8 @@ async def html2pic(
     wait_until: Literal[
         "commit", "domcontentloaded", "load", "networkidle"
     ] = "networkidle",
-    wait: int | float = 0,
-    device_scale_factor: int | float = 1,
+    wait: float = 0,
+    device_scale_factor: float = 1,
     locator: str | None = None,
     **kwargs,
 ) -> bytes:
@@ -339,8 +339,7 @@ async def get_api_data(
     retry: int = 3,
     to_json: Literal[True] = True,
     **kwargs,
-) -> Any:
-    ...
+) -> Any: ...
 
 
 @overload
@@ -351,8 +350,7 @@ async def get_api_data(
     retry: int = 3,
     to_json: Literal[False] = False,
     **kwargs,
-) -> Response:
-    ...
+) -> Response: ...
 
 
 async def get_api_data(

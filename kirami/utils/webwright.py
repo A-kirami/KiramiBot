@@ -101,43 +101,25 @@ class WebWright:
 
 
 async def install_browser() -> None:
-    import os
-    import shutil
-    import subprocess
-    import sys
+    import asyncio
 
-    from playwright.__main__ import main
+    from playwright._impl._driver import compute_driver_executable, get_driver_env
 
-    from kirami.config import bot_config
-
-    if not (playwright_cmd := shutil.which("playwright")):
-        raise RuntimeError("Playwright is not installed") from None
-
-    os.environ["PLAYWRIGHT_DOWNLOAD_HOST"] = "https://npmmirror.com/mirrors/playwright/"
-    sys.argv = ["", "install", bot_config.browser]
-
-    logger.debug(f"Running {playwright_cmd} install {bot_config.browser}")
-
-    try:
-        logger.debug("Install dependencies necessary to run browsers")
-        subprocess.run(  # noqa: ASYNC101
-            [playwright_cmd, "install-deps"],  # noqa: S603
-            check=True,
+    logger.info(f"正在安装 {bot_config.browser} 浏览器")
+    driver_executable = compute_driver_executable()
+    process = await asyncio.create_subprocess_exec(
+        driver_executable,
+        "install",
+        "--with-deps",
+        bot_config.browser,
+        env=get_driver_env(),
+    )
+    return_code = await process.wait()
+    if return_code:
+        logger.error(
+            f"{bot_config.browser} 浏览器安装失败，请检查网络状况或尝试手动安装"
         )
-    except subprocess.CalledProcessError:
-        logger.exception("Playwright 依赖安装失败，请检查网络状况或尝试手动安装")
-        return
-
-    try:
-        logger.debug("Install browsers for this version of Playwright")
-        main()
-    except SystemExit as e:
-        if e.code != 0:
-            logger.opt(exception=True).error(
-                f"{bot_config.browser} 浏览器安装失败，请检查网络状况或尝试手动安装"
-            )
-        else:
-            logger.success(f"{bot_config.browser} 浏览器安装成功")
+    logger.success(f"{bot_config.browser} 浏览器安装成功")
 
 
 on_shutdown(WebWright.stop)

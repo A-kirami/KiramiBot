@@ -5,7 +5,7 @@
 groups = ["default", "dev", "hyper", "test"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:91664edf0f56e9544e364af6d24b084c22c3f7eaedc75f7655536eccb80d3643"
+content_hash = "sha256:da9f7a1613cb92a57790fe4d5e075a5e76a5cae7ff39605de6c5ffe28883d432"
 
 [[package]]
 name = "anyio"
@@ -62,12 +62,12 @@ files = [
 
 [[package]]
 name = "cashews"
-version = "6.3.0"
-requires_python = ">=3.7"
+version = "7.0.2"
+requires_python = ">=3.8"
 summary = "cache tools with async power"
 files = [
-    {file = "cashews-6.3.0-py3-none-any.whl", hash = "sha256:ed74dbd445678b6aa74318df8189a2d0c6f9f72715f87436e73be23e371c2a28"},
-    {file = "cashews-6.3.0.tar.gz", hash = "sha256:33108a793734a3cceb74037b58719a50e1f6e95d598ea71476e79e21130df90e"},
+    {file = "cashews-7.0.2-py3-none-any.whl", hash = "sha256:fa984d918461fab97cd232e2ccdd027c8b87b2a60062799b16b9b04c61307c1f"},
+    {file = "cashews-7.0.2.tar.gz", hash = "sha256:27ea1e2b74b95fe094d99197c60160a791f837c603b93120f39430c8a2767ca8"},
 ]
 
 [[package]]

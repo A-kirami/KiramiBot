@@ -43,7 +43,7 @@ dependencies = [
     "markdown-it-py[linkify,plugins]>=3.0.0",
     "mdit-py-emoji>=0.1.1",
     "pygments>=2.16.1",
-    "yarl>=1.9.2",
+    "yarl>=1.9.4",
 ]
 
 [project.urls]

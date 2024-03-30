@@ -24,6 +24,7 @@
 - `Matchergroup`
 """
 
+from kirami.log import logger as logger  # isort:skip
 from kirami import patch  # isort:skip  # noqa: F401
 
 import importlib
@@ -40,7 +41,6 @@ from nonebot.utils import path_to_module_name
 from kirami import hook
 from kirami.config import bot_config, kirami_config, plugin_config
 from kirami.log import Columns, Panel, Text, console
-from kirami.log import logger as logger
 from kirami.server import Server
 from kirami.version import __metadata__ as __metadata__
 from kirami.version import __version__ as __version__

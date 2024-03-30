@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:98817d8bce906c8025857c7040456e15f9ec539ee6dca01477195ac604ab0a18"
+content_hash = "sha256:a01e5de50fd974aa7eaaf1a667d6be597ded6ee52dbc80e121102088fbf66333"
 
 [[package]]
 name = "anyio"
@@ -283,18 +283,16 @@ files = [
 
 [[package]]
 name = "httpcore"
-version = "0.18.0"
+version = "1.0.5"
 requires_python = ">=3.8"
 summary = "A minimal low-level HTTP client."
 dependencies = [
-    "anyio<5.0,>=3.0",
     "certifi",
     "h11<0.15,>=0.13",
-    "sniffio==1.*",
 ]
 files = [
-    {file = "httpcore-0.18.0-py3-none-any.whl", hash = "sha256:adc5398ee0a476567bf87467063ee63584a8bce86078bf748e48754f60202ced"},
-    {file = "httpcore-0.18.0.tar.gz", hash = "sha256:13b5e5cd1dca1a6636a6aaea212b19f4f85cd88c366a2b82304181b769aab3c9"},
+    {file = "httpcore-1.0.5-py3-none-any.whl", hash = "sha256:421f18bac248b25d310f3cacd198d55b8e6125c107797b609ff9b7a6ba7991b5"},
+    {file = "httpcore-1.0.5.tar.gz", hash = "sha256:34a38e2f9291467ee3b44e89dd52615370e152954ba21721378a87b2960f7a61"},
 ]
 
 [[package]]
@@ -348,33 +346,34 @@ files = [
 
 [[package]]
 name = "httpx"
-version = "0.25.0"
+version = "0.27.0"
 requires_python = ">=3.8"
 summary = "The next generation HTTP client."
 dependencies = [
+    "anyio",
     "certifi",
-    "httpcore<0.19.0,>=0.18.0",
+    "httpcore==1.*",
     "idna",
     "sniffio",
 ]
 files = [
-    {file = "httpx-0.25.0-py3-none-any.whl", hash = "sha256:181ea7f8ba3a82578be86ef4171554dd45fec26a02556a744db029a0a27b7100"},
-    {file = "httpx-0.25.0.tar.gz", hash = "sha256:47ecda285389cb32bb2691cc6e069e3ab0205956f681c5b2ad2325719751d875"},
+    {file = "httpx-0.27.0-py3-none-any.whl", hash = "sha256:71d5465162c13681bff01ad59b2cc68dd838ea1f10e51574bac27103f00c91a5"},
+    {file = "httpx-0.27.0.tar.gz", hash = "sha256:a0cb88a46f32dc874e04ee956e4c2764aba2aa228f650b06788ba6bda2962ab5"},
 ]
 
 [[package]]
 name = "httpx"
-version = "0.25.0"
+version = "0.27.0"
 extras = ["http2"]
 requires_python = ">=3.8"
 summary = "The next generation HTTP client."
 dependencies = [
     "h2<5,>=3",
-    "httpx==0.25.0",
+    "httpx==0.27.0",
 ]
 files = [
-    {file = "httpx-0.25.0-py3-none-any.whl", hash = "sha256:181ea7f8ba3a82578be86ef4171554dd45fec26a02556a744db029a0a27b7100"},
-    {file = "httpx-0.25.0.tar.gz", hash = "sha256:47ecda285389cb32bb2691cc6e069e3ab0205956f681c5b2ad2325719751d875"},
+    {file = "httpx-0.27.0-py3-none-any.whl", hash = "sha256:71d5465162c13681bff01ad59b2cc68dd838ea1f10e51574bac27103f00c91a5"},
+    {file = "httpx-0.27.0.tar.gz", hash = "sha256:a0cb88a46f32dc874e04ee956e4c2764aba2aa228f650b06788ba6bda2962ab5"},
 ]
 
 [[package]]

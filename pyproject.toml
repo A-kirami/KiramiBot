@@ -1,6 +1,6 @@
 [project]
 name = "KiramiBot"
-version = "0.3.3"
+version = "0.3.4"
 description = "🌟 读作 Kirami，写作星见，简明轻快的聊天机器人应用。"
 authors = [{ name = "Akirami", email = "akiramiaya@outlook.com" }]
 requires-python = ">=3.10,<4.0"

@@ -5,7 +5,7 @@ import logging
 import re
 from collections.abc import Callable
 from functools import wraps
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypeAlias, get_args
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypeAlias
 
 import loguru
 import nonebot
@@ -212,14 +212,19 @@ LOG_CONFIG = {
 
 
 def file_handler(levels: LevelName | tuple[LevelName, ...]) -> list[dict[str, Any]]:
-    if not isinstance(levels, tuple):
-        level_names = get_args(LevelName)
-        minimum = level_names.index(levels)
-        levels = level_names[minimum:]
+    if isinstance(levels, str):
+        return [
+            {
+                "sink": LOG_DIR / "{time:YYYY-MM-DD}.log",
+                "level": levels,
+                **LOG_CONFIG,
+            }
+        ]
     return [
         {
             "sink": LOG_DIR / level.lower() / "{time:YYYY-MM-DD}.log",
             "level": level,
+            "filter": lambda record, level=level: record["level"].name == level,
             **LOG_CONFIG,
         }
         for level in levels

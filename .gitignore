@@ -184,5 +184,6 @@ pyrightconfig.json
 
 # KiramiBot
 kirami.*
-/logs
 /data
+/logs
+/resources

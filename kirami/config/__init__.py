@@ -25,8 +25,5 @@ plugin_config = kirami_config.plugin
 server_config = kirami_config.server
 """服务器相关配置"""
 
-log_config = kirami_config.log
-"""日志相关配置"""
-
 database_config = kirami_config.database
 """数据库相关配置"""

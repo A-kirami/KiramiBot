@@ -66,11 +66,6 @@ class BaseConfig(BaseModel, Mapping):
         return cls(**cls.__raw_config__.get(namespace, {}))
 
 
-class LogConfig(BaseConfig):
-    log_expire_timeout: int = 7
-    """日志文件过期时间"""
-
-
 class DatabaseConfig(BaseConfig):
     """
     MongoDB 数据库配置
@@ -164,10 +159,13 @@ class BotConfig(BaseConfig):
     """是否以调试模式运行 KiramiBot"""
 
     log_level: LevelName | int = "INFO"
-    """配置 KiramiBot 日志输出等级，可以为 `int` 类型等级或等级名称，参考 [loguru 日志等级](https://loguru.readthedocs.io/en/stable/api/logger.html#levels)"""
+    """日志输出等级，可以为 `int` 类型等级或等级名称，参考 [loguru 日志等级](https://loguru.readthedocs.io/en/stable/api/logger.html#levels)"""
 
     log_file: LevelName | tuple[LevelName] = "ERROR"
-    """KiramiBot 的日志保存等级，必须为等级名称"""
+    """日志保存等级，必须为等级名称"""
+
+    log_expire_timeout: int = 7
+    """日志文件过期时间"""
 
     api_root: dict[str, str] = {}
     """以机器人 ID 为键，上报地址为值的字典"""
@@ -240,9 +238,6 @@ class KiramiConfig(BaseConfig):
 
     server: ServerConfig
     """服务器相关配置"""
-
-    log: LogConfig
-    """日志相关配置"""
 
     database: DatabaseConfig
     """数据库相关配置"""

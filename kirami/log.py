@@ -26,7 +26,7 @@ from rich.text import Text as Text
 from rich.theme import Theme
 from rich.traceback import install
 
-from kirami.config import LOG_DIR, bot_config, log_config
+from kirami.config import LOG_DIR, bot_config
 
 if TYPE_CHECKING:
     from loguru import Logger as LoggerType
@@ -207,7 +207,7 @@ LOG_CONFIG = {
     "rotation": "00:00",
     "enqueue": True,
     "encoding": "utf-8",
-    "retention": f"{log_config.log_expire_timeout} days",
+    "retention": f"{bot_config.log_expire_timeout} days",
 }
 
 

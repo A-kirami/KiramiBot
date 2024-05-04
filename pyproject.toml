@@ -42,7 +42,7 @@ dependencies = [
     "filetype>=1.2.0",
     "markdown-it-py[linkify,plugins]>=3.0.0",
     "mdit-py-emoji>=0.1.1",
-    "pygments>=2.16.1",
+    "pygments>=2.18.0",
     "yarl>=1.9.2",
 ]
 

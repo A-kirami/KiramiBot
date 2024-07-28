@@ -53,8 +53,8 @@ documentation = "https://kiramibot.dev/docs"
 
 [tool.pdm.dev-dependencies]
 dev = [
-    "ruff>=0.3.4",
-    "pre-commit>=3.7.0",
+    "ruff>=0.5.5",
+    "pre-commit>=3.8.0",
 ]
 
 [tool.pdm.scripts]

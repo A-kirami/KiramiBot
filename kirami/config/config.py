@@ -209,6 +209,9 @@ class BotConfig(BaseConfig):
     default_policy_allow: set[str] = {"*"}
     """默认权限策略允许的内容列表"""
 
+    plugin_priority: float = float("inf")
+    """插件加载的默认优先级"""
+
     _env_file: str | None = Field(default=None, alias="env_file")
     """配置文件名默认从 `.env.{env_name}` 中读取配置"""
 

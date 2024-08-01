@@ -237,13 +237,28 @@ class KiramiBot:
 
     def load_plugins(self) -> None:
         """加载插件"""
-        plugins = {
-            path_to_module_name(pp) if (pp := Path(p)).exists() else p
-            for p in plugin_config.plugins
+        plugin_priorities = {
+            (
+                path_to_module_name(plugin_path)
+                if (plugin_path := Path(plugin)).exists()
+                else plugin
+            ): float(priority) if priority else bot_config.plugin_priority
+            for plugin, _, priority in (p.partition(":") for p in plugin_config.plugins)
         }
-        manager = PluginManager(plugins, plugin_config.plugin_dirs)
-        plugins = manager.available_plugins
+
+        plugin_dir_priorities = {
+            plugin_dir: float(priority) if priority else bot_config.plugin_priority
+            for plugin_dir, _, priority in (
+                pd.partition(":") for pd in plugin_config.plugin_dirs
+            )
+        }
+
+        manager = PluginManager(plugin_priorities, plugin_dir_priorities)
         _managers.append(manager)
+        plugins = manager.available_plugins
+        plugin_names = (
+            manager._third_party_plugin_names | manager._searched_plugin_names
+        )
 
         if plugin_config.whitelist:
             plugins &= plugin_config.whitelist
@@ -251,9 +266,21 @@ class KiramiBot:
         if plugin_config.blacklist:
             plugins -= plugin_config.blacklist
 
-        loaded_plugins = set(
-            filter(None, (manager.load_plugin(name) for name in plugins))
-        )
+        def get_plugin_priority(plugin_name: str) -> float:
+            plugin = plugin_names[plugin_name]
+            if isinstance(plugin, str):
+                return plugin_priorities[plugin]
+            if isinstance(plugin, Path):
+                for plugin_dir, priority in plugin_dir_priorities.items():
+                    if plugin.is_relative_to(Path(plugin_dir).resolve()):
+                        return priority
+            return bot_config.plugin_priority
+
+        sorted_plugins = sorted(plugins, key=get_plugin_priority)
+
+        loaded_plugins = {
+            plugin for name in sorted_plugins if (plugin := manager.load_plugin(name))
+        }
 
         self.loading_state(loaded_plugins)
 

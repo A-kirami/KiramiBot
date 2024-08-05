@@ -30,7 +30,7 @@ class WebView:
             raise ValueError("Routed paths must start with '/'")
 
         self.route = self.base + path
-        app: "FastAPI" = Server.get_app()
+        app: FastAPI = Server.get_app()
         app.mount(
             self.route,
             StaticFiles(directory=get_path(mount, depth=1), html=True),

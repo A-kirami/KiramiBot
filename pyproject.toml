@@ -48,9 +48,9 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://kiramibot.dev"
+homepage = "https://kirami.bot"
 repository = "https://github.com/A-kirami/KiramiBot"
-documentation = "https://kiramibot.dev/docs"
+documentation = "https://kirami.bot/docs"
 
 [tool.pdm.dev-dependencies]
 dev = [

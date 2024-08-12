@@ -26,7 +26,7 @@
 
 ### 文档
 
-- [官方文档](https://kiramibot.dev/docs)
+- [官方文档](https://kirami.bot/docs)
 
 ### 聊天
 

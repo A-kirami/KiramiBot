@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://kiramibot.dev/">
+  <a href="https://kirami.bot/">
     <p>
       <img src="https://raw.githubusercontent.com/A-kirami/KiramiBot/main/assets/logo.svg" width="180" height="180" alt="KiramiBot Logo">
     </p>
@@ -42,11 +42,11 @@
     <img src="https://github.com/A-kirami/KiramiBot/actions/workflows/ruff.yml/badge.svg?branch=main&event=push" alt="ruff">
   </a>
   <br />
-  <a href="https://kiramibot.dev" target="__blank">
+  <a href="https://kirami.bot" target="__blank">
     <strong>📖 官方文档</strong>
   </a>
   &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="https://kiramibot.dev/docs/guide/start/installation" target="__blank">
+  <a href="https://kirami.bot/docs/guide/start/installation" target="__blank">
     <strong>🚀 快速开始</strong>
   </a>
   &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -89,13 +89,13 @@ KiramiBot 是一个功能强大的机器人框架，它可以帮助你创建自�
 #### Linux, macOS, Windows (WSL)
 
 ```bash
-curl -sSL https://install.kiramibot.dev | python3 -
+curl -sSL https://install.kirami.bot | python3 -
 ```
 
 #### Windows (Powershell)
 
 ```powershell
-(Invoke-WebRequest -Uri https://install.kiramibot.dev -UseBasicParsing).Content | py -
+(Invoke-WebRequest -Uri https://install.kirami.bot -UseBasicParsing).Content | py -
 ```
 
 ### 创建项目

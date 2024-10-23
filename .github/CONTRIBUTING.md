@@ -62,7 +62,7 @@
 
 如果你不想使用代码空间或者开发容器，你可以在本地环境中开发。
 
-KiramiBot 使用 [pdm](https://pdm.fming.dev/) 管理项目依赖。请确保你已经安装了 pdm，然后在项目根目录下运行 `pdm install` 安装依赖。
+KiramiBot 使用 [uv](https://docs.astral.sh/uv/) 管理项目依赖。请确保你已经安装了 uv，然后在项目根目录下运行 `uv sync` 安装依赖。
 
 ### 提交修改
 

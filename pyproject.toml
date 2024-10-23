@@ -49,23 +49,26 @@ homepage = "https://kirami.bot"
 repository = "https://github.com/A-kirami/KiramiBot"
 documentation = "https://kirami.bot/docs"
 
-[tool.pdm.dev-dependencies]
-dev = [
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["kirami"]
+
+[tool.uv]
+dev-dependencies = [
     "ruff>=0.7.0",
-    "pre-commit>=4.0.1"
+    "pre-commit>=4.0.1",
+    "poethepoet>=0.29.0",
 ]
 
-[tool.pdm.scripts]
+[tool.poe.tasks]
 lint = "ruff check"
 "lint:fix" = "ruff check --fix"
 format = "ruff format"
-post_install = "pre-commit install"
 
 [tool.pyright]
 pythonVersion = "3.12"
 pythonPlatform = "All"
 typeCheckingMode = "basic"
-
-[build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"

@@ -30,7 +30,7 @@ class WebView:
             raise ValueError("Routed paths must start with '/'")
 
         self.route = self.base + path
-        app: "FastAPI" = Server.get_app()
+        app: "FastAPI" = Server.get_app()  # noqa: UP037
         app.mount(
             self.route,
             StaticFiles(directory=get_path(mount, depth=1), html=True),
@@ -48,13 +48,13 @@ class WebView:
         ### 返回
             带有数据的视图链接
         """
-        data_id = self.generate_id()
+        data_id = self._generate_id()
         self.data[data_id] = kwargs
-        data_url = self.get_data_url(data_id)
-        view_url = self.get_view_url(path)
+        data_url = self._get_data_url(data_id)
+        view_url = self._get_view_url(path)
         return view_url.with_query(data_url=str(data_url))
 
-    def get_view_url(self, path: str) -> URL:
+    def _get_view_url(self, path: str) -> URL:
         """获取视图链接。
 
         ### 参数
@@ -65,7 +65,7 @@ class WebView:
         return BASE_URL.with_path(self.route + path)
 
     @classmethod
-    def get_data_url(cls, data_id: str) -> URL:
+    def _get_data_url(cls, data_id: str) -> URL:
         """获取数据链接。
 
         ### 参数
@@ -74,7 +74,7 @@ class WebView:
         return BASE_URL / "viewdata" / data_id
 
     @staticmethod
-    def generate_id() -> str:
+    def _generate_id() -> str:
         """生成标识符"""
         return secrets.token_urlsafe(16)
 

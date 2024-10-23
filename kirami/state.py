@@ -1,7 +1,7 @@
 """本模块定义了会话状态类"""
 
 from re import Match
-from typing import Any
+from typing import Any, Self
 
 from nonebot.adapters.onebot.v11 import Message, MessageSegment
 from nonebot.consts import (
@@ -22,7 +22,6 @@ from nonebot.consts import (
 from nonebot.exception import ParserExit
 from nonebot.rule import Namespace
 from nonebot.typing import T_State
-from typing_extensions import Self
 
 
 class BaseState(T_State):

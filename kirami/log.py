@@ -5,7 +5,7 @@ import logging
 import re
 from collections.abc import Callable
 from functools import wraps
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypeAlias
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 import loguru
 import nonebot
@@ -37,7 +37,7 @@ if TYPE_CHECKING:
 logger: "LoggerType" = loguru.logger
 """KiramiBot 日志记录器对象"""
 
-LevelName: TypeAlias = Literal[
+type LevelName = Literal[
     "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"
 ]
 

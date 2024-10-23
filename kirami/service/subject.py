@@ -3,7 +3,7 @@
 import asyncio
 from collections.abc import Callable, Generator
 from contextlib import AsyncExitStack
-from typing import Annotated
+from typing import Annotated, Self
 
 from nonebot.dependencies import Dependent
 from nonebot.exception import SkippedException
@@ -11,7 +11,6 @@ from nonebot.message import EVENT_PCS_PARAMS
 from nonebot.params import Depends
 from nonebot.typing import _DependentCallable
 from nonebot.utils import run_coro_with_catch
-from typing_extensions import Self
 
 from kirami.log import logger
 from kirami.typing import Bot, Event, GroupMessageEvent, MessageEvent
@@ -58,7 +57,7 @@ class Subject(str):
         return cls(type, id)
 
 
-T_SubjectExtractor = _DependentCallable[Subject]
+type T_SubjectExtractor = _DependentCallable[Subject]
 
 _extractors: set[Dependent[Subject]] = set()
 
@@ -100,7 +99,7 @@ async def extractor_subjects(bot: Bot, event: Event) -> set[Subject]:
     raise RuntimeError("unreachable")
 
 
-EventSubjects = Annotated[set[Subject], Depends(extractor_subjects)]
+type EventSubjects = Annotated[set[Subject], Depends(extractor_subjects)]
 """事件主体集合"""
 
 

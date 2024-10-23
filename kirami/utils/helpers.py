@@ -1,15 +1,12 @@
 """本模块提供了一些常用的工具函数"""
 
 from collections.abc import Callable
-from typing import TypeVar
 
 from nonebot.adapters.onebot.v11 import Message, MessageEvent
 from nonebot.matcher import Matcher
 
-T = TypeVar("T")
 
-
-async def extract_match(
+async def extract_match[T](
     extract_func: Callable[..., T],
     event: MessageEvent,
     matcher: Matcher,

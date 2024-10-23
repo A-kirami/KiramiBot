@@ -8,13 +8,12 @@ from collections import defaultdict
 from datetime import datetime
 from datetime import time as Time
 from enum import Enum
-from typing import ClassVar, TypedDict, cast
+from typing import ClassVar, Self, TypedDict, cast
 
 from mango import Document, Field
 from nonebot.adapters import MessageTemplate as MessageTemplate
 from pydantic import BaseModel, validator
 from pydantic import Field as PField
-from typing_extensions import Self
 
 from kirami.event import Event
 from kirami.hook import on_startup

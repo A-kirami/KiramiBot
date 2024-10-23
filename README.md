@@ -21,7 +21,7 @@
   <a href="https://pypi.python.org/pypi/kiramibot">
     <img src="https://img.shields.io/pypi/v/kiramibot?logo=python&logoColor=edb641" alt="pypi">
   </a>
-  <img src="https://img.shields.io/badge/python-3.10+-blue?logo=python&logoColor=edb641" alt="python">
+  <img src="https://img.shields.io/badge/python-3.12+-blue?logo=python&logoColor=edb641" alt="python">
   <a href="https://github.com/psf/black">
     <img src="https://img.shields.io/badge/code%20style-black-000000.svg?logo=python&logoColor=edb641" alt="black">
   </a>
@@ -82,7 +82,7 @@ KiramiBot 是一个功能强大的机器人框架，它可以帮助你创建自�
 ## 🚀 开始
 
 > [!NOTE]
-> 需要 Python 3.10 或更高版本，以及 mongoDB 数据库。
+> 需要 Python 3.12 或更高版本，以及 mongoDB 数据库。
 
 ### 安装 Kirami CLI
 

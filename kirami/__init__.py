@@ -29,7 +29,7 @@ from kirami import patch  # isort:skip  # noqa: F401
 
 import importlib
 from pathlib import Path
-from typing import Any, ClassVar, Literal, TypeVar, overload
+from typing import Any, ClassVar, Literal, overload
 
 import nonebot
 from nonebot.adapters import Adapter, Bot
@@ -44,8 +44,6 @@ from kirami.log import Columns, Panel, Text, console
 from kirami.server import Server
 from kirami.version import __metadata__ as __metadata__
 from kirami.version import __version__ as __version__
-
-A = TypeVar("A", bound=Adapter)
 
 
 def get_driver() -> Driver:
@@ -71,7 +69,7 @@ def get_adapter(name: str) -> Adapter:
 
 
 @overload
-def get_adapter(name: type[A]) -> A:
+def get_adapter[A: Adapter](name: type[A]) -> A:
     """
     ### 参数
         name: 适配器类型

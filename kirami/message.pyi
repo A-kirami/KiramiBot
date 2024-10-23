@@ -1,13 +1,12 @@
 from io import BytesIO
 from pathlib import Path
-from typing import Protocol
+from typing import Protocol, Self
 
 from flowery import Imager
 from flowery.typing import PILImage
 from nonebot.adapters import MessageTemplate as MessageTemplate
 from nonebot.adapters.onebot.v11 import Message as BaseMessage
 from nonebot.adapters.onebot.v11 import MessageSegment as BaseMessageSegment
-from typing_extensions import Self
 
 # ruff: noqa: PYI021
 

@@ -63,7 +63,7 @@ async def service_controller(
                 raise
 
 
-T_ServiceChecker = _DependentCallable[Any]
+type T_ServiceChecker = _DependentCallable[Any]
 
 
 def register_checker(checker: T_ServiceChecker) -> None:
@@ -81,7 +81,7 @@ def useService(matcher: Matcher) -> Service:
     return ServiceManager.get_service(matcher)
 
 
-D_Service = Annotated[Service, useService()]
+type D_Service = Annotated[Service, useService()]
 
 
 @depends
@@ -89,7 +89,7 @@ def useAbility(matcher: Matcher) -> Ability | None:
     return None if not matcher.priority and matcher.temp else Ability.got(matcher)
 
 
-D_Ability = Annotated[Ability, useAbility()]
+type D_Ability = Annotated[Ability, useAbility()]
 
 
 @register_checker

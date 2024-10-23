@@ -2,7 +2,7 @@
 
 import asyncio
 from enum import IntEnum, auto
-from typing import Any, ClassVar, Literal
+from typing import Any, ClassVar, Literal, Self
 
 from bidict import bidict
 from mango import Document, Field
@@ -10,7 +10,6 @@ from nonebot.matcher import Matcher
 from nonebot.plugin import Plugin
 from pydantic import BaseModel, PrivateAttr, validator
 from pydantic.fields import ModelField
-from typing_extensions import Self
 
 from .limiter import LimitScope
 from .subject import Subject

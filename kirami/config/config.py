@@ -4,16 +4,15 @@ from collections.abc import KeysView, Mapping
 from datetime import timedelta
 from ipaddress import IPv4Address
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, NoReturn, TypeAlias
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, NoReturn, Self
 
 from mango.drive import DEFAULT_CONNECT_URI
 from nonebot.config import Config, Env
 from pydantic import BaseModel, Field, IPvAnyAddress, root_validator
-from typing_extensions import Self
 
 from .utils import find_plugin
 
-LevelName: TypeAlias = Literal[
+type LevelName = Literal[
     "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"
 ]
 

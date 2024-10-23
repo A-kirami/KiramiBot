@@ -4,14 +4,13 @@ import contextlib
 from collections.abc import Callable
 from io import BytesIO
 from pathlib import Path
-from typing import ClassVar, Protocol, TypeVar, runtime_checkable
+from typing import ClassVar, Protocol, Self, runtime_checkable
 
 from flowery import Imager
 from flowery.typing import PILImage
 from nonebot.adapters import MessageTemplate as MessageTemplate
 from nonebot.adapters.onebot.v11 import Message as BaseMessage
 from nonebot.adapters.onebot.v11 import MessageSegment as BaseMessageSegment
-from typing_extensions import Self
 
 from kirami.exception import ReadFileError
 
@@ -188,10 +187,7 @@ class MessageSegment(BaseMessageSegment):
         return super().node_custom(int(user_id), nickname, content)
 
 
-M = TypeVar("M", bound=BaseMessage)
-
-
-class MessageBuilder:
+class MessageBuilder[M: BaseMessage]:
     def __init__(self, ms: type[BaseMessageSegment]) -> None:
         self.ms = ms
 

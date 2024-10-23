@@ -4,12 +4,8 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+import tomllib
 from nonebot.plugin import Plugin
-
-try:  # pragma: py-gte-311
-    import tomllib  # pyright: ignore[reportMissingImports]
-except ModuleNotFoundError:  # pragma: py-lt-311
-    import tomli as tomllib
 
 
 def load_config() -> dict[str, Any]:

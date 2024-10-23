@@ -6,9 +6,10 @@ from datetime import datetime, time, timedelta, tzinfo
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Literal, ParamSpec, TypeVar, overload
+from typing import Any, Literal, overload
 
 import arrow
+import tomllib
 import yaml
 from arrow import Arrow
 from flowery import Imager
@@ -30,17 +31,6 @@ from kirami.exception import (
 from .renderer import Renderer
 from .request import Request
 from .webwright import WebWright
-
-try:  # pragma: py-gte-311
-    import tomllib  # pyright: ignore[reportMissingImports]
-except ModuleNotFoundError:  # pragma: py-lt-311
-    import tomli as tomllib
-
-R = TypeVar("R")
-"""返回值泛型。"""
-
-P = ParamSpec("P")
-"""参数泛型"""
 
 
 def get_path(file: str | Path, *, depth: int = 0) -> Path:
@@ -156,7 +146,7 @@ def str_of_size(size: int) -> str:
     return f"{size / 1024 ** 5:.2f} PB"
 
 
-def singleton(cls: Callable[P, R]) -> Callable[P, R]:
+def singleton[**P, R](cls: Callable[P, R]) -> Callable[P, R]:
     """单例模式装饰器"""
     _instance: dict[Callable[P, R], Any] = {}
 
@@ -169,7 +159,7 @@ def singleton(cls: Callable[P, R]) -> Callable[P, R]:
     return wrapper
 
 
-def awaitable(func: Callable[P, R]) -> Callable[P, Coroutine[Any, Any, R]]:
+def awaitable[**P, R](func: Callable[P, R]) -> Callable[P, Coroutine[Any, Any, R]]:
     """同步转异步装饰器"""
 
     @wraps(func)

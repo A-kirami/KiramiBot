@@ -3,7 +3,7 @@
 from collections.abc import AsyncGenerator
 from datetime import time
 from re import Match
-from typing import Annotated, Any, Literal, TypeAlias, TypeVar
+from typing import Annotated, Any, Literal
 
 from httpx._types import ProxiesTypes, VerifyTypes
 from nonebot.adapters import Message, MessageSegment
@@ -54,8 +54,6 @@ from kirami.utils import (
     extract_plain_text,
 )
 
-T = TypeVar("T")
-
 
 class DependsInner(BaseDependsInner):
     def __call__(
@@ -98,55 +96,55 @@ def depends(dependency: T_Handler | None = None, *, use_cache: bool = True) -> A
     return DependsInner(dependency, use_cache=use_cache)
 
 
-Arg = Annotated[Message, useArg()]
+type Arg = Annotated[Message, useArg()]
 """`got` 的 Arg 参数消息"""
 
-ArgPlainText = Annotated[str, useArgPlainText()]
+type ArgPlainText = Annotated[str, useArgPlainText()]
 """`got` 的 Arg 参数消息文本"""
 
-ArgStr = Annotated[str, useArgStr()]
+type ArgStr = Annotated[str, useArgStr()]
 """`got` 的 Arg 参数消息纯文本"""
 
-Command = Annotated[tuple[str, ...], useCommand()]
+type Command = Annotated[tuple[str, ...], useCommand()]
 """消息命令元组"""
 
-CommandArg = Annotated[Message, useCommandArg()]
+type CommandArg = Annotated[Message, useCommandArg()]
 """消息命令参数"""
 
-CommandWhitespace = Annotated[str, useCommandWhitespace()]
+type CommandWhitespace = Annotated[str, useCommandWhitespace()]
 """消息命令与参数之间的空白"""
 
-EventMessage = Annotated[Message, useEventMessage()]
+type EventMessage = Annotated[Message, useEventMessage()]
 """事件消息参数"""
 
-EventPlainText = Annotated[str, useEventPlainText()]
+type EventPlainText = Annotated[str, useEventPlainText()]
 """事件纯文本消息参数"""
 
-EventType = Annotated[str, useEventType()]
+type EventType = Annotated[str, useEventType()]
 """事件类型参数"""
 
-RawCommand = Annotated[str, useRawCommand()]
+type RawCommand = Annotated[str, useRawCommand()]
 """消息命令文本"""
 
-RegexDict = Annotated[dict[str, Any], useRegexDict()]
+type RegexDict = Annotated[dict[str, Any], useRegexDict()]
 """正则匹配结果 group 字典"""
 
-RegexGroup = Annotated[tuple[Any, ...], useRegexGroup()]
+type RegexGroup = Annotated[tuple[Any, ...], useRegexGroup()]
 """正则匹配结果 group 元组"""
 
-RegexMatched = Annotated[Match[str], useRegexMatched()]
+type RegexMatched = Annotated[Match[str], useRegexMatched()]
 """正则匹配结果"""
 
-RegexStr = Annotated[str, useRegexStr()]
+type RegexStr = Annotated[str, useRegexStr()]
 """正则匹配结果文本"""
 
-ShellCommandArgs = Annotated[Namespace, useShellCommandArgs()]
+type ShellCommandArgs = Annotated[Namespace, useShellCommandArgs()]
 """shell 命令解析后的参数字典"""
 
-ShellCommandExit = Annotated[ParserExit, useShellCommandArgs()]
+type ShellCommandExit = Annotated[ParserExit, useShellCommandArgs()]
 """shell 命令解析失败的异常"""
 
-ShellCommandArgv = Annotated[list[str | MessageSegment], useShellCommandArgv()]
+type ShellCommandArgv = Annotated[list[str | MessageSegment], useShellCommandArgv()]
 """shell 命令原始参数列表"""
 
 
@@ -160,7 +158,7 @@ def useLastReceived(default: Any = None) -> Any:
     return originalLastReceived(default)
 
 
-LastReceived = Annotated[Event, useLastReceived()]
+type LastReceived = Annotated[Event, useLastReceived()]
 """`last_receive` 事件参数"""
 
 
@@ -170,7 +168,7 @@ def useToMe(event: Event) -> bool:
     return event.is_tome()
 
 
-ToMe: TypeAlias = Annotated[bool, useToMe()]
+type ToMe = Annotated[bool, useToMe()]
 """事件是否与机器人有关"""
 
 
@@ -180,7 +178,7 @@ def useReplyMe(event: MessageEvent) -> bool:
     return bool(event.reply)
 
 
-ReplyMe: TypeAlias = Annotated[bool, useReplyMe()]
+type ReplyMe = Annotated[bool, useReplyMe()]
 """是否回复了机器人的消息"""
 
 
@@ -192,7 +190,7 @@ async def useUserData(event: Event) -> User | None:
     return None
 
 
-UserData: TypeAlias = Annotated[User, useUserData()]
+type UserData = Annotated[User, useUserData()]
 """用户数据文档模型"""
 
 
@@ -204,7 +202,7 @@ async def useGroupData(event: Event) -> Group | None:
     return None
 
 
-GroupData: TypeAlias = Annotated[User, useGroupData()]
+type GroupData = Annotated[User, useGroupData()]
 """群数据文档模型"""
 
 
@@ -226,7 +224,7 @@ def useImageURLs(prompt: str | None = None, from_reply: bool = False) -> list[st
     return image_urls
 
 
-ImageURLs = Annotated[list[str], useImageURLs()]
+type ImageURLs = Annotated[list[str], useImageURLs()]
 """消息中图片链接"""
 
 
@@ -246,7 +244,7 @@ def useAtUsers(prompt: str | None = None, from_reply: bool = False) -> list[str]
     return at_users
 
 
-AtUsers = Annotated[list[str], useAtUsers()]
+type AtUsers = Annotated[list[str], useAtUsers()]
 """消息中提及的用户"""
 
 
@@ -268,7 +266,7 @@ def usePlainText(prompt: str | None = None, from_reply: bool = False) -> str:
     return plain_text
 
 
-PlainText = Annotated[str, usePlainText()]
+type PlainText = Annotated[str, usePlainText()]
 """消息内纯文本消息"""
 
 
@@ -290,7 +288,7 @@ def useClientSession(
     return client_session
 
 
-ClientSession = Annotated[AsyncClient, useClientSession()]
+type ClientSession = Annotated[AsyncClient, useClientSession()]
 """网络连接会话对象"""
 
 
@@ -299,7 +297,7 @@ def useStateData(key: str | None = None) -> Any:
     return ArgInner(key, type="state")  # type: ignore
 
 
-StateData = Annotated[T, useStateData()]
+type StateData[T] = Annotated[T, useStateData()]
 """会话状态内容"""
 
 
@@ -308,7 +306,7 @@ def useArgot(key: str | None = None) -> Any:
     return ArgInner(key, type="argot")  # type: ignore
 
 
-Argot = Annotated[T, useArgot()]
+type Argot[T] = Annotated[T, useArgot()]
 """暗语内容"""
 
 
@@ -323,7 +321,7 @@ def useWebContext(**kwargs) -> BrowserContext:
     return web_context
 
 
-WebContext: TypeAlias = Annotated[BrowserContext, useWebContext()]
+type WebContext = Annotated[BrowserContext, useWebContext()]
 """浏览器上下文"""
 
 
@@ -338,7 +336,7 @@ def useWebPage(**kwargs) -> Page:
     return web_page
 
 
-WebPage: TypeAlias = Annotated[Page, useWebPage()]
+type WebPage = Annotated[Page, useWebPage()]
 """浏览器页面"""
 
 
@@ -360,7 +358,7 @@ def useUserName() -> str:
     return user_name
 
 
-UserName = Annotated[str, useUserName()]
+type UserName = Annotated[str, useUserName()]
 """用户名、群名片或用户昵称"""
 
 
@@ -379,7 +377,7 @@ def useUserAvatar(size: Literal["small", "medium", "large"] = "large") -> str:
     return user_avatar
 
 
-UserAvatar = Annotated[str, useUserAvatar()]
+type UserAvatar = Annotated[str, useUserAvatar()]
 """用户头像链接"""
 
 
@@ -395,7 +393,7 @@ def useGroupAvatar(size: Literal["small", "medium", "large"] = "large") -> str:
     return group_avatar
 
 
-GroupAvatar = Annotated[str, useGroupAvatar()]
+type GroupAvatar = Annotated[str, useGroupAvatar()]
 """获取头像链接"""
 
 
@@ -524,7 +522,7 @@ def useConfirm(*keywords: str) -> bool:
     return dependency
 
 
-Confirm: TypeAlias = Annotated[bool, useConfirm()]
+type Confirm = Annotated[bool, useConfirm()]
 
 
 def useCancel(*keywords: str) -> bool:
@@ -539,7 +537,7 @@ def useCancel(*keywords: str) -> bool:
     return dependency
 
 
-Cancel: TypeAlias = Annotated[bool, useCancel()]
+type Cancel = Annotated[bool, useCancel()]
 
 
 def handleCancel(*keywords: str, prompt: str | None = None) -> None:
@@ -565,4 +563,4 @@ def useUserRole(event: Event, subjects: EventSubjects) -> Role:
     return role
 
 
-UserRole: TypeAlias = Annotated[Role, useUserRole()]
+type UserRole = Annotated[Role, useUserRole()]

@@ -3,7 +3,7 @@
 from collections import defaultdict
 from collections.abc import Callable
 from functools import wraps
-from typing import Any, ParamSpec, TypeVar, cast
+from typing import Any, cast
 
 from nonebot import get_driver
 from nonebot.adapters import Bot
@@ -24,18 +24,14 @@ from nonebot.typing import (
     T_RunPreProcessor,
 )
 
-R = TypeVar("R")
-
-P = ParamSpec("P")
-
-AnyCallable = Callable[..., Any]
+type AnyCallable = Callable[..., Any]
 
 _backlog_hooks = defaultdict(list)
 
 _hook_installed = False
 
 
-def backlog_hook(hook: Callable[P, R]) -> Callable[P, R]:
+def backlog_hook[**P, R](hook: Callable[P, R]) -> Callable[P, R]:
     """在初始化之前暂存钩子"""
 
     @wraps(hook)

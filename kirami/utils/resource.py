@@ -8,10 +8,9 @@ from abc import ABC, abstractmethod
 from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Self
 
 from flowery import Imager
-from typing_extensions import Self
 
 from kirami.config import AUDIO_DIR, FONT_DIR, IMAGE_DIR, RES_DIR, VIDEO_DIR
 from kirami.exception import ResourceError, WriteFileError

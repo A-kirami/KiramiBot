@@ -2,10 +2,9 @@
 
 import asyncio
 from abc import ABC, abstractmethod
-from typing import ClassVar
+from typing import ClassVar, Self
 
 from mango import Document, Field
-from typing_extensions import Self
 
 from kirami.config import bot_config
 from kirami.hook import on_startup

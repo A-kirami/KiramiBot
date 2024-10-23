@@ -2,10 +2,9 @@
 
 import json
 from pathlib import Path
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Self
 
 from pydantic import BaseModel, PrivateAttr, root_validator
-from typing_extensions import Self
 
 from kirami.config import DATA_DIR
 from kirami.exception import FileNotExistError, ReadFileError

@@ -44,6 +44,13 @@ dependencies = [
     "yarl>=1.16.0",
 ]
 
+[dependency-groups]
+dev = [
+    "ruff>=0.7.0",
+    "pre-commit>=4.0.1",
+    "poethepoet>=0.29.0",
+]
+
 [project.urls]
 homepage = "https://kirami.bot"
 repository = "https://github.com/A-kirami/KiramiBot"
@@ -55,13 +62,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["kirami"]
-
-[tool.uv]
-dev-dependencies = [
-    "ruff>=0.7.0",
-    "pre-commit>=4.0.1",
-    "poethepoet>=0.29.0",
-]
 
 [tool.poe.tasks]
 lint = "ruff check"

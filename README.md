@@ -55,6 +55,9 @@
   </a>
 </p>
 
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot?ref=badge_large)
+
 ## ⭐️ 简介
 
 KiramiBot 是一个功能强大的机器人框架，它可以帮助你创建自定义的聊天机器人，用于自动化任务、聊天交互和更多用途。
@@ -121,6 +124,7 @@ kirami run
 ## 🎊 活动
 
 ![Alt](https://repobeats.axiom.co/api/embed/4cdc60f22b220e807018a8e4a19226bb942f6331.svg "Repobeats analytics image")
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot?ref=badge_shield)
 
 ## 📄 许可证
 

@@ -41,6 +41,9 @@
   <a href="https://github.com/A-kirami/KiramiBot/actions/workflows/ruff.yml">
     <img src="https://github.com/A-kirami/KiramiBot/actions/workflows/ruff.yml/badge.svg?branch=main&event=push" alt="ruff">
   </a>
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot?ref=badge_shield&issueType=license">
+    <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot.svg?type=shield&issueType=license" alt="FOSSA Status">
+  </a>
   <br />
   <a href="https://kirami.bot" target="__blank">
     <strong>📖 官方文档</strong>
@@ -54,9 +57,6 @@
     <strong>💬 讨论交流</strong>
   </a>
 </p>
-
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot?ref=badge_large)
 
 ## ⭐️ 简介
 
@@ -124,10 +124,11 @@ kirami run
 ## 🎊 活动
 
 ![Alt](https://repobeats.axiom.co/api/embed/4cdc60f22b220e807018a8e4a19226bb942f6331.svg "Repobeats analytics image")
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot?ref=badge_shield)
 
 ## 📄 许可证
 
 Code: AGPL-3.0 - 2023 - Akirami
 
 Logo: CC-BY-NC-ND, Designs by Akirami
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FA-kirami%2FKiramiBot?ref=badge_large)

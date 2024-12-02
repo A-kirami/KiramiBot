@@ -22,7 +22,7 @@ class PrefixRule(StartswithRule):
         ignorecase: 是否忽略大小写
     """
 
-    __slots__ = ("msg", "ignorecase")
+    __slots__ = ("ignorecase", "msg")
 
     def __repr__(self) -> str:
         return f"Prefix(msg={self.msg}, ignorecase={self.ignorecase})"
@@ -73,7 +73,7 @@ class SuffixRule(EndswithRule):
         ignorecase: 是否忽略大小写
     """
 
-    __slots__ = ("msg", "ignorecase")
+    __slots__ = ("ignorecase", "msg")
 
     def __repr__(self) -> str:
         return f"Suffix(msg={self.msg}, ignorecase={self.ignorecase})"

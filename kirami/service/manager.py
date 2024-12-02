@@ -228,7 +228,7 @@ class ServiceManager:
             服务对象
         """
         for service in Service.sp_map:
-            if tag and tag in service.tags or not tag:
+            if (tag and tag in service.tags) or not tag:
                 yield service
 
     @classmethod

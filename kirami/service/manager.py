@@ -144,7 +144,7 @@ class ServiceManager:
                 config |= _from_file(plugin)
         except Exception as e:
             logger.opt(colors=True, exception=e).error(
-                f"Loading \"{getattr(plugin, 'full_name')}\" configuration failed! Use default configuration."
+                f'Loading "{getattr(plugin, "full_name")}" configuration failed! Use default configuration.'
             )
         config["id"] = f"{config['author']}.{getattr(plugin, 'full_name')}"
         service = Service(**config)
@@ -170,9 +170,9 @@ class ServiceManager:
         for matcher in matchers:
             if members := inspect.getmembers(
                 matcher.module,
-                lambda x, m=matcher: x.matcher is m
-                if isinstance(x, MatcherCase)
-                else x is m,
+                lambda x, m=matcher: (
+                    x.matcher is m if isinstance(x, MatcherCase) else x is m
+                ),
             ):
                 name, _ = members[0]
             else:
@@ -228,7 +228,7 @@ class ServiceManager:
             服务对象
         """
         for service in Service.sp_map:
-            if tag and tag in service.tags or not tag:
+            if (tag and tag in service.tags) or not tag:
                 yield service
 
     @classmethod

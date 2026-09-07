@@ -1,6 +1,7 @@
 import asyncio
 import inspect
 import json
+import tomllib
 from collections.abc import Callable, Coroutine
 from datetime import datetime, time, timedelta, tzinfo
 from functools import wraps
@@ -9,7 +10,6 @@ from pathlib import Path
 from typing import Any, Literal, overload
 
 import arrow
-import tomllib
 import yaml
 from arrow import Arrow
 from flowery import Imager
@@ -138,12 +138,12 @@ def str_of_size(size: int) -> str:
     if size < 1024**2:
         return f"{size / 1024:.2f} KB"
     if size < 1024**3:
-        return f"{size / 1024 ** 2:.2f} MB"
+        return f"{size / 1024**2:.2f} MB"
     if size < 1024**4:
-        return f"{size / 1024 ** 3:.2f} GB"
+        return f"{size / 1024**3:.2f} GB"
     if size < 1024**5:
-        return f"{size / 1024 ** 4:.2f} TB"
-    return f"{size / 1024 ** 5:.2f} PB"
+        return f"{size / 1024**4:.2f} TB"
+    return f"{size / 1024**5:.2f} PB"
 
 
 def singleton[**P, R](cls: Callable[P, R]) -> Callable[P, R]:

@@ -65,7 +65,7 @@ class WebWright:
         """获取浏览器实例"""
         if not cls._browser:
             await cls.launch()
-        return cast(Browser, cls._browser)
+        return cast("Browser", cls._browser)
 
     @classmethod
     @asynccontextmanager

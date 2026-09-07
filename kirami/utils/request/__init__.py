@@ -609,24 +609,27 @@ class Request:
         ### 生成
             `httpx.Response` 对象
         """
-        async with httpx.AsyncClient(
-            verify=verify,
-            http2=http2,
-            proxies=proxies or bot_config.proxy_url,  # type: ignore
-            **kwargs,
-        ) as client, client.stream(
-            method,
-            url,
-            content=content,
-            data=data,
-            files=files,
-            json=json,
-            params=params,
-            headers=add_user_agent(headers),
-            cookies=cookies,
-            follow_redirects=follow_redirects,
-            timeout=timeout if timeout is not None else bot_config.http_timeout,
-        ) as response:
+        async with (
+            httpx.AsyncClient(
+                verify=verify,
+                http2=http2,
+                proxies=proxies or bot_config.proxy_url,  # type: ignore
+                **kwargs,
+            ) as client,
+            client.stream(
+                method,
+                url,
+                content=content,
+                data=data,
+                files=files,
+                json=json,
+                params=params,
+                headers=add_user_agent(headers),
+                cookies=cookies,
+                follow_redirects=follow_redirects,
+                timeout=timeout if timeout is not None else bot_config.http_timeout,
+            ) as response,
+        ):
             yield response
 
     @classmethod

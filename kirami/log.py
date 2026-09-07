@@ -32,7 +32,6 @@ if TYPE_CHECKING:
     from loguru import Logger as LoggerType
     from loguru import Record
 
-# ruff: noqa: ANN001
 
 logger: "LoggerType" = loguru.logger
 """KiramiBot 日志记录器对象"""
@@ -241,7 +240,9 @@ logger.configure(
             "diagnose": False,
             "backtrace": True,
             "filter": LogFilter(),
-            "format": lambda _: "[light_slate_blue bold][link={file.path}:{line}]{name}[/][/] [dim]|[/] {message}",
+            "format": lambda _: (
+                "[light_slate_blue bold][link={file.path}:{line}]{name}[/][/] [dim]|[/] {message}"
+            ),
         },
         *file_handler(bot_config.log_file),
     ]

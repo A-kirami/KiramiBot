@@ -40,7 +40,7 @@ def backlog_hook[**P, R](hook: Callable[P, R]) -> Callable[P, R]:
             return hook(*args, **kwargs)
         try:
             _backlog_hooks[hook].append(args[0])
-            return cast(R, args[0])
+            return cast("R", args[0])
         except IndexError:
             return hook(*args, **kwargs)
 

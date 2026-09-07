@@ -17,7 +17,7 @@ from kirami.typing import Bot, Event, GroupMessageEvent, MessageEvent
 
 
 class Subject(str):
-    __slots__ = ("type", "id")
+    __slots__ = ("id", "type")
 
     type: str
     """主体类型"""
@@ -39,9 +39,8 @@ class Subject(str):
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Subject):
             raise TypeError(f"Subject can only compare with Subject, not {type(other)}")
-        return (
-            self.type == "*"
-            or other.type in {self.type, "*"}
+        return self.type == "*" or (
+            other.type in {self.type, "*"}
             and (self.id == "*" or other.id in {self.id, "*"})
         )
 

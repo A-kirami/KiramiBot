@@ -1,10 +1,10 @@
 import importlib
 import itertools
+import tomllib
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-import tomllib
 from nonebot.plugin import Plugin
 
 

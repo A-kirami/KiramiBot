@@ -230,7 +230,7 @@ class Quota(PersistLimiter):
         """
         self.accum[key] += amount
         if self.reset_at is None:
-            self.reset_at = get_daily_datetime(cast(Time, self.reset_time))
+            self.reset_at = get_daily_datetime(cast("Time", self.reset_time))
         await self.save()
 
     def check(self, key: str) -> bool:
